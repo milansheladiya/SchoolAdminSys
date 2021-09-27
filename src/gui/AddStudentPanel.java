@@ -82,7 +82,6 @@ public class AddStudentPanel extends JPanel implements ActionListener {
 
         constraints.gridx = 1;
 
-
         subjecttListDropdown = new JList<>();
         DefaultListModel<String> listModel = new DefaultListModel<>();
         for (String s : subjectList) {
@@ -94,7 +93,6 @@ public class AddStudentPanel extends JPanel implements ActionListener {
         subjecttListDropdown.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         subjecttListDropdown.setVisibleRowCount(4);
         add(new JScrollPane(subjecttListDropdown), constraints);
-
 
         constraints.gridx = 0;
         constraints.gridy = 3;
@@ -146,6 +144,8 @@ public class AddStudentPanel extends JPanel implements ActionListener {
                     }
                     DB.addStudent(studentID, studentFullName, courseString);
                     msgLable.setText("Student Added Successfully.");
+                    addStudent_sId.setText("");
+                    addStudent_sName.setText("");
                 }
 
             } else {

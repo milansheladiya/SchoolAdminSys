@@ -6,15 +6,19 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 public class ViewCoursePanel extends JPanel implements ActionListener {
     int screenWidth, screenHeight, buttonWidth;
-    public JComboBox<String> courseList;
+    public JComboBox<String> courseListDropDown;
     DataController DB;
-    String[] subjectList = { "Maths", "Java", "Science", "English" };
+    // String[] subjectList = { "Maths", "Java", "Science", "English" };
+    static List<String> subjectList;
+    public TextArea CourseDataViewArea;
 
     public ViewCoursePanel() {
         DB = new DataController();
+        subjectList = DB.listOfCourseIds();
         setLayout(new GridBagLayout());
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         screenWidth = screenSize.width;
@@ -42,24 +46,45 @@ public class ViewCoursePanel extends JPanel implements ActionListener {
         add(selectCourseLabel, constraints);
 
         constraints.gridx = 1;
-        JComboBox<String> courseList = new JComboBox<>(subjectList);
-        add(courseList, constraints);
+        courseListDropDown = new JComboBox<>();
+        DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>();
+        for (String s : subjectList) {
+            comboBoxModel.addElement(s);
+        }
+        courseListDropDown.setPrototypeDisplayValue("Select teacher");
+        courseListDropDown.setModel(comboBoxModel);
+        add(courseListDropDown, constraints);
 
         constraints.gridx = 0;
         constraints.gridy = 1;
         constraints.gridwidth = 2;
         constraints.anchor = GridBagConstraints.CENTER;
+        CourseDataViewArea = new TextArea("Course Data");
+        CourseDataViewArea.setBounds(10, 30, 300, 300);
+        CourseDataViewArea.setEditable(false);
+        add(CourseDataViewArea, constraints);
+
+        constraints.gridx = 0;
+        constraints.gridy = 2;
+        constraints.gridwidth = 2;
+        constraints.anchor = GridBagConstraints.CENTER;
         JButton viewCourseButton = new JButton("View Course");
         add(viewCourseButton, constraints);
+        viewCourseButton.addActionListener(this);
 
         // set border for the panel
         setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "View course details"));
-
 
     }
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
+        viewCourse();
+    }
 
+    private void viewCourse() {
+        String courseDetails = DB.fetchCourseById(String.valueOf(courseListDropDown.getSelectedItem()));
+        System.out.println("View Course" + courseDetails);
+        CourseDataViewArea.setText(courseDetails);
     }
 }

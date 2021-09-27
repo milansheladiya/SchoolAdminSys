@@ -23,7 +23,6 @@ public class Gui implements ActionListener {
     JButton addStudent, viewStudent, addTeacher, viewTeacher, addCourse, viewCourse, assignTeacherToCourse,
             assignStudentToCourse;
 
-
     int screenWidth, screenHeight, buttonWidth, buttonHeight;
 
     public Gui() {
@@ -134,18 +133,45 @@ public class Gui implements ActionListener {
             addStudentPnl.setVisible(true);
         } else if (e.getSource() == viewStudent) {
             hidePanel();
+            viewStudentPnl.remove(viewStudentPnl.studentIdDropdown);
+            ViewStudentPanel v = new ViewStudentPanel();
+            v.studentIdList = DB.listOfStudentIds();
+            DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>();
+            for (String s : v.studentIdList) {
+                comboBoxModel.addElement(s);
+            }
+            viewStudentPnl.studentIdDropdown.setModel(comboBoxModel);
+            viewStudentPnl.add(viewStudentPnl.studentIdDropdown);
             viewStudentPnl.setVisible(true);
         } else if (e.getSource() == addTeacher) {
             hidePanel();
             addTeacherPnl.setVisible(true);
         } else if (e.getSource() == viewTeacher) {
             hidePanel();
+            viewTeacherPnl.remove(viewTeacherPnl.teacherIdDropdown);
+            ViewTeacherPanel v = new ViewTeacherPanel();
+            v.teacherIdList = DB.listOfTeacherIds();
+            DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>();
+            for (String s : v.teacherIdList) {
+                comboBoxModel.addElement(s);
+            }
+            viewTeacherPnl.teacherIdDropdown.setModel(comboBoxModel);
+            viewTeacherPnl.add(viewTeacherPnl.teacherIdDropdown);
             viewTeacherPnl.setVisible(true);
         } else if (e.getSource() == addCourse) {
             hidePanel();
             addCoursePnl.setVisible(true);
         } else if (e.getSource() == viewCourse) {
             hidePanel();
+            viewCourse.remove(viewCoursePnl.courseListDropDown);
+            ViewCoursePanel v = new ViewCoursePanel();
+            v.subjectList = DB.listOfCourseIds();
+            DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>();
+            for (String s : v.subjectList) {
+                comboBoxModel.addElement(s);
+            }
+            viewCoursePnl.courseListDropDown.setModel(comboBoxModel);
+            viewCoursePnl.add(viewCoursePnl.courseListDropDown);
             viewCoursePnl.setVisible(true);
         } else if (e.getSource() == assignTeacherToCourse) {
             hidePanel();
@@ -156,6 +182,7 @@ public class Gui implements ActionListener {
         }
 
     }
+
     public void hidePanel() {
         addStudentPnl.setVisible(false);
         viewStudentPnl.setVisible(false);

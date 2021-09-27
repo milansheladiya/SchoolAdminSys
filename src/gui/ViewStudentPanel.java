@@ -13,7 +13,8 @@ public class ViewStudentPanel extends JPanel implements ActionListener {
     int screenWidth, screenHeight, buttonWidth;
     public JComboBox<String> studentIdDropdown;
     public JButton viewStudentButton;
-    List<String> studentIdList ;
+    static List<String> studentIdList;
+    public TextArea studentDataViewArea;
 
     public ViewStudentPanel() {
         DB = new DataController();
@@ -60,6 +61,16 @@ public class ViewStudentPanel extends JPanel implements ActionListener {
         constraints.gridy = 1;
         constraints.gridwidth = 2;
         constraints.anchor = GridBagConstraints.CENTER;
+        // viewStudentButton = new JButton("View Student");
+        studentDataViewArea = new TextArea("Student Data");
+        studentDataViewArea.setBounds(10, 30, 300, 300);
+        studentDataViewArea.setEditable(false);
+        add(studentDataViewArea, constraints);
+
+        constraints.gridx = 0;
+        constraints.gridy = 2;
+        constraints.gridwidth = 3;
+        constraints.anchor = GridBagConstraints.CENTER;
         viewStudentButton = new JButton("View Student");
 
         add(viewStudentButton, constraints);
@@ -74,9 +85,11 @@ public class ViewStudentPanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent actionEvent) {
         viewStudent();
     }
+
     private void viewStudent() {
         String studentDetails = DB.fetchStudentById(String.valueOf(studentIdDropdown.getSelectedItem()));
         System.out.println("View Student" + studentDetails);
+        studentDataViewArea.setText(studentDetails);
 
     }
 }

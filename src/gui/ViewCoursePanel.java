@@ -83,8 +83,25 @@ public class ViewCoursePanel extends JPanel implements ActionListener {
     }
 
     private void viewCourse() {
-        String courseDetails = DB.fetchCourseById(String.valueOf(courseListDropDown.getSelectedItem()));
+        String response = DB.fetchCourseById(String.valueOf(courseListDropDown.getSelectedItem()));
+        String[] Variable = response.split(":");
+        int i = 0;
+        StringBuilder courseDetails = new StringBuilder();
+        for (String value : Variable) {
+            if (i == 0) {
+                courseDetails.append("Course Id = " + value + "\n");
+            } else if (i == 1) {
+                courseDetails.append("Course Name = " + value + "\n");
+            } else if (i == 2) {
+                courseDetails.append("Course Start Date = " + value + "\n");
+            } else if (i == 3) {
+                courseDetails.append("Course End Date = " + value + "\n");
+            } else if (i == 4) {
+                courseDetails.append("PreRequisite = " + value + "\n");
+            }
+            i++;
+        }
         System.out.println("View Course" + courseDetails);
-        CourseDataViewArea.setText(courseDetails);
+        CourseDataViewArea.setText(courseDetails.toString());
     }
 }

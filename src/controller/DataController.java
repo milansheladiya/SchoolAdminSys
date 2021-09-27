@@ -160,7 +160,163 @@ public class DataController {
         printConsole("Add Course : Confirm...");
     }
 
-    public List<String> listOfPastCourse() {
+    public void assignCourseToStudent(String courseId, String studentId) {
+        try {
+            FileWriter writer = new FileWriter(file, true);
+            BufferedWriter bufferedWriter = new BufferedWriter(writer);
+
+            bufferedWriter.write(
+                    "StudentCourse" + ":" + courseId + ":" + studentId);
+            bufferedWriter.newLine();
+
+            bufferedWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void assignCourseToTeacher(String courseId, String teacherId) {
+        try {
+            FileWriter writer = new FileWriter(file, true);
+            BufferedWriter bufferedWriter = new BufferedWriter(writer);
+
+            bufferedWriter.write(
+                    "TeacherCourse" + ":" + courseId + ":" + teacherId);
+            bufferedWriter.newLine();
+
+            bufferedWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public int getCourseCurrentStudentCapacity(String courseId) {
+        int count = 0;
+        try {
+
+            FileReader reader = new FileReader(file);
+            bufferedReader = new BufferedReader(reader);
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] studentCourse = line.split(":");
+                if (studentCourse[0].equals("StudentCourse") && courseId.equals(studentCourse[1])) {
+                    String course = fetchCourseById(studentCourse[1]);
+                    if (!isPastCourse(course)) {
+                        count++;
+                    }
+                }
+            }
+            try {
+                reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (Exception ex) {
+            try {
+                reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            printConsole(ex.getMessage());
+        }
+        return count;
+    }
+
+    public int getCourseCurrentTeacherCapacity(String courseId) {
+        int count = 0;
+        try {
+
+            FileReader reader = new FileReader(file);
+            bufferedReader = new BufferedReader(reader);
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] teacherCourse = line.split(":");
+                if (teacherCourse[0].equals("TeacherCourse") && courseId.equals(teacherCourse[1])) {
+                    String course = fetchCourseById(teacherCourse[1]);
+                    if (!isPastCourse(course)) {
+                        count++;
+                    }
+                }
+            }
+            try {
+                reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (Exception ex) {
+            try {
+                reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            printConsole(ex.getMessage());
+        }
+        return count;
+    }
+
+    public int getTeacherTeachingCourseCount(String teacherId) {
+        int count = 0;
+        try {
+            FileReader reader = new FileReader(file);
+            bufferedReader = new BufferedReader(reader);
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] teacherCourse = line.split(":");
+                if (teacherCourse[0].equals("TeacherCourse") && teacherId.equals(teacherCourse[2])) {
+                    String course = fetchCourseById(teacherCourse[1]);
+                    if (!isPastCourse(course)) {
+                        count++;
+                    }
+                }
+            }
+            try {
+                reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (Exception ex) {
+            try {
+                reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            printConsole(ex.getMessage());
+        }
+        return count;
+    }
+
+    public int getStudentEnrolledCourseCount(String studentId) {
+        int count = 0;
+        try {
+            FileReader reader = new FileReader(file);
+            bufferedReader = new BufferedReader(reader);
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] studentCourse = line.split(":");
+                if (studentCourse[0].equals("StudentCourse") && studentId.equals(studentCourse[2])) {
+                    String course = fetchCourseById(studentCourse[1]);
+                    if (!isPastCourse(course)) {
+                        count++;
+                    }
+                }
+            }
+            try {
+                reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (Exception ex) {
+            try {
+                reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            printConsole(ex.getMessage());
+        }
+        return count;
+    }
+
+    public List<String> listOfCurrentCourse() {
         List<String> list = new ArrayList<>();
         try {
 
@@ -173,8 +329,8 @@ public class DataController {
                     String[] Variable = Course[1].split(":");
                     // printConsole(Variable[3]);
                     String[] EDate = Variable[3].split("-"); // date format : DD-MM-YYYY
-                    if (Integer.parseInt(EDate[0]) < CurrentDay() && Integer.parseInt(EDate[1]) <= CurrentMonth()
-                            && Integer.parseInt(EDate[2]) <= CurrentYear())
+                    if (Integer.parseInt(EDate[0]) >= CurrentDay() && Integer.parseInt(EDate[1]) >= CurrentMonth()
+                            && Integer.parseInt(EDate[2]) >= CurrentYear())
                         ;
                     {
                         list.add(Variable[0] + ":" + Variable[1]);
@@ -209,7 +365,7 @@ public class DataController {
                 if (Course[0].equals("Course")) {
                     String[] Variable = Course[1].split(":");
                     // printConsole(Variable[3]);
-                    list.add(Variable[1]);
+                    list.add(Variable[0] + ":" + Variable[1]);
                 }
             }
             try {
@@ -318,6 +474,66 @@ public class DataController {
         return list;
     }
 
+    public List<String> listOfStudents() {
+        List<String> list = new ArrayList<>();
+        try {
+            FileReader reader = new FileReader(file);
+            bufferedReader = new BufferedReader(reader);
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] Student = line.split("@");
+                if (Student[0].equals("Student")) {
+                    String[] Variable = Student[1].split(":");
+                    // printConsole(Variable[3]);
+                    list.add(Variable[0] + ":" + Variable[1]);
+                }
+            }
+            try {
+                reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (Exception ex) {
+            try {
+                reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            printConsole(ex.getMessage());
+        }
+        return list;
+    }
+
+    public List<String> listOfTeachers() {
+        List<String> list = new ArrayList<>();
+        try {
+            FileReader reader = new FileReader(file);
+            bufferedReader = new BufferedReader(reader);
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] teacher = line.split("@");
+                if (teacher[0].equals("Teacher")) {
+                    String[] Variable = teacher[1].split(":");
+                    // printConsole(Variable[3]);
+                    list.add(Variable[0] + ":" + Variable[1]);
+                }
+            }
+            try {
+                reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (Exception ex) {
+            try {
+                reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            printConsole(ex.getMessage());
+        }
+        return list;
+    }
+
     public String fetchStudentById(String studentId) {
         StringBuilder studentDetails = new StringBuilder();
         try {
@@ -393,7 +609,7 @@ public class DataController {
     }
 
     public String fetchCourseById(String courseId) {
-        StringBuilder courseDetails = new StringBuilder();
+        String courseDetails = "";
         try {
             FileReader reader = new FileReader(file);
             bufferedReader = new BufferedReader(reader);
@@ -403,21 +619,7 @@ public class DataController {
                 if (course[0].equals("Course")) {
                     String[] Variable = course[1].split(":");
                     if (Variable[0].equals(courseId)) {
-                        int i = 0;
-                        for (String value : Variable) {
-                            if (i == 0) {
-                                courseDetails.append("Course Id = " + value + "\n");
-                            } else if (i == 1) {
-                                courseDetails.append("Course Name = " + value + "\n");
-                            } else if (i == 2) {
-                                courseDetails.append("Course Start Date = " + value + "\n");
-                            } else if (i == 3) {
-                                courseDetails.append("Course End Date = " + value + "\n");
-                            } else if (i == 4) {
-                                courseDetails.append("PreRequisite = " + value + "\n");
-                            }
-                            i++;
-                        }
+                        courseDetails = course[1];
                     }
                 }
             }
@@ -429,8 +631,9 @@ public class DataController {
             }
             printConsole(ex.getMessage());
         }
-        return courseDetails.toString();
+        return courseDetails;
     }
+
 
     // common message print gateway
     public static void printConsole(String msg) {

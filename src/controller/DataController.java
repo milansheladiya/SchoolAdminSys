@@ -2,7 +2,6 @@ package controller;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static util.UtilityClass.*;
@@ -112,7 +111,7 @@ public class DataController {
         return isteacherAvailable;
     }
 
-    public void addStudent(String studentID, String studentFullName, StringBuilder listOfCourse) {
+    public void addStudent(String studentID, String studentFullName, String listOfCourse) {
         try {
             FileWriter writer = new FileWriter(file, true);
             BufferedWriter bufferedWriter = new BufferedWriter(writer);
@@ -261,7 +260,6 @@ public class DataController {
             String line;
             while ((line = bufferedReader1.readLine()) != null) {
                 String[] teacherCourse = line.split(":");
-                System.out.println("line" + line );
                 if (teacherCourse[0].equals("TeacherCourse") && teacherId.equals(teacherCourse[2])) {
                     String course = fetchCourseById(teacherCourse[1]);
                     if (!isPastCourse(course)) {
@@ -316,6 +314,40 @@ public class DataController {
         return count;
     }
 
+    public List<String> listOfPastCourse() {
+        List<String> list = new ArrayList<>();
+        try {
+
+            FileReader reader = new FileReader(file);
+            BufferedReader bufferedReader = new BufferedReader(reader);
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] course = line.split("@");
+                if (course[0].equals("Course")) {
+//                    20210927172832:dsfsdf:12-11-2021:12-11-2022:Maths;English;Science
+                    String[] courseStringArr = course[1].split(":");
+                    if (isPastCourse(course[1])) {
+                        System.out.println(course[1]);
+                        list.add(courseStringArr[0] + ":" + courseStringArr[1]);
+                    }
+                }
+            }
+            try {
+                reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (Exception ex) {
+            try {
+                reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            printConsole(ex.getMessage());
+        }
+        return list;
+    }
+
     public List<String> listOfCurrentCourse() {
         List<String> list = new ArrayList<>();
         try {
@@ -324,17 +356,13 @@ public class DataController {
             BufferedReader bufferedReader = new BufferedReader(reader);
             String line;
             while ((line = bufferedReader.readLine()) != null) {
-                String[] Course = line.split("@");
-                if (Course[0].equals("Course")) {
-                    String[] Variable = Course[1].split(":");
+                String[] course = line.split("@");
+                if (course[0].equals("Course")) {
+                    String[] Variable = course[1].split(":");
                     // printConsole(Variable[3]);
-                    String[] EDate = Variable[3].split("-"); // date format : DD-MM-YYYY
-                    if (Integer.parseInt(EDate[0]) >= CurrentDay() && Integer.parseInt(EDate[1]) >= CurrentMonth()
-                            && Integer.parseInt(EDate[2]) >= CurrentYear())
-                        ;
-                    {
-                        list.add(Variable[0] + ":" + Variable[1]);
-                        // printConsole("Filtered Past course : "+line);
+                    String[] courseStringArr = course[1].split(":");
+                    if (!isPastCourse(course[1])) {
+                        list.add(courseStringArr[0] + ":" + courseStringArr[1]);
                     }
                 }
             }

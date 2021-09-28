@@ -14,7 +14,7 @@ public class AssignTeacherToCoursePanel extends JPanel implements ActionListener
     public JLabel msgLable;
     JButton assignTeacherButton;
     DataController DB;
-    List<String> teacherList,courseList;
+    List<String> teacherList, courseList;
 
     public AssignTeacherToCoursePanel() {
         DB = new DataController();
@@ -102,27 +102,33 @@ public class AssignTeacherToCoursePanel extends JPanel implements ActionListener
     }
 
     private void assignTeacherToCourseSubmit() {
-        if(teacherListDropdown.getSelectedItem() != null){
+        if (teacherListDropdown.getSelectedItem() != null) {
             String teacherId = String.valueOf(teacherListDropdown.getSelectedItem()).split(" - ")[0];
             String courseId = String.valueOf(courseListDropdown.getSelectedItem()).split(" - ")[0];
-            if(DB.getCourseCurrentTeacherCapacity(courseId) < 1 ){
-                if(DB.getTeacherTeachingCourseCount(teacherId) < 2){
-                    DB.assignCourseToTeacher(courseId,teacherId);
-                    msgLable.setText("Teacher Assigned Successfully.");
-                    msgLable.setForeground(Color.green);
-                    courseListDropdown.setSelectedIndex(0);
-                    teacherListDropdown.setSelectedIndex(0);
-                }else{
-                    msgLable.setText("Teachers only allowed to teach 2 courses at once.");
+            if (DB.getCourseCurrentTeacherCapacity(courseId) < 1) {
+                if (!DB.checkTeacherAlreadyAssignedInCourse(courseId, teacherId)) {
+                    if (DB.getTeacherTeachingCourseCount(teacherId) < 2) {
+                        DB.assignCourseToTeacher(courseId, teacherId);
+                        msgLable.setText("Teacher Assigned Successfully.");
+                        msgLable.setForeground(Color.green);
+                        courseListDropdown.setSelectedIndex(0);
+                        teacherListDropdown.setSelectedIndex(0);
+                    } else {
+                        msgLable.setText("Teachers only allowed to teach 2 courses at once.");
+                        msgLable.setForeground(Color.red);
+                    }
+                } else {
+                    msgLable.setText("Teacher is already teaching in this course");
                     msgLable.setForeground(Color.red);
                 }
-            }else{
+
+            } else {
                 msgLable.setText("Course can have maximum 1 teacher");
                 msgLable.setForeground(Color.red);
 
             }
 
-        }else {
+        } else {
             msgLable.setText("Please select teacher");
             msgLable.setForeground(Color.red);
         }

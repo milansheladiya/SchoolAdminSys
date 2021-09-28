@@ -151,7 +151,7 @@ public class AddCoursePanel extends JPanel implements ActionListener {
                     //Course@courseId:courseName:startDate:endDate:PreRequisite
                     DB.addCourse(generateUniqueId(),courseNameTxtField.getText(),courseStartDateTxtField.getText(),courseEndDateTxtField.getText(),PreCourse);
                     //System.out.println("\nAns : " + DB.listOfPastCourse().toString());
-                    msgLable.setText("Course Added Successfully.");
+                    msgLable.setText("Student Added Successfully.");
                     msgLable.setForeground(Color.green);
 
                 }

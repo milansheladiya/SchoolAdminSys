@@ -18,10 +18,13 @@ public class Gui implements ActionListener {
     ViewCoursePanel viewCoursePnl;
     AssignTeacherToCoursePanel assignTeacherToCoursePnl;
     AssignStudentsToCoursePanel assignStudentsToCoursePnl;
+    RemoveStudentsToCoursePanel removeStudentsToCoursePnl;
+    RemoveTeacherToCoursePanel removeTeacherToCoursePnl;
+    EditGrades editGradesPnl;
 
     JFrame frame;
     JButton addStudent, viewStudent, addTeacher, viewTeacher, addCourse, viewCourse, assignTeacherToCourse,
-            assignStudentToCourse;
+            assignStudentToCourse, removerTecherCourse, removeStudentCourse, editGrade;
 
     int screenWidth, screenHeight, buttonWidth, buttonHeight;
 
@@ -36,13 +39,17 @@ public class Gui implements ActionListener {
         viewCoursePnl = new ViewCoursePanel();
         assignTeacherToCoursePnl = new AssignTeacherToCoursePanel();
         assignStudentsToCoursePnl = new AssignStudentsToCoursePanel();
+        removeStudentsToCoursePnl = new RemoveStudentsToCoursePanel();
+        removeTeacherToCoursePnl = new RemoveTeacherToCoursePanel();
+        editGradesPnl = new EditGrades();
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         screenWidth = screenSize.width;
         screenHeight = screenSize.height;
-        buttonWidth = screenWidth / 10;
-        buttonHeight = screenHeight / 25;
+        buttonWidth = screenWidth / 12;
+        buttonHeight = 40;
 
+        frame.add(new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS));
         // Menu Buttons
         buttonInit();
 
@@ -59,9 +66,8 @@ public class Gui implements ActionListener {
 
     private void buttonInit() {
 
-        System.out.println(buttonWidth);
         addStudent = new JButton("Add Student");
-        int x = screenWidth / 25;
+        int x = screenWidth / 85;
         int y = screenHeight / 25;
         addStudent.setBounds(x, y, buttonWidth, buttonHeight);
         addStudent.setFont(new Font("Serif", Font.BOLD, 14));
@@ -75,41 +81,59 @@ public class Gui implements ActionListener {
         viewStudent.addActionListener(this);
         frame.add(viewStudent);
 
+        editGrade = new JButton("Edit Student Grade");
+        editGrade.setBounds(x + (buttonWidth * 2) + 20, y, 150, buttonHeight);
+        editGrade.setFont(new Font("Serif", Font.BOLD, 14));
+        editGrade.addActionListener(this);
+        frame.add(editGrade);
+
         addTeacher = new JButton("Add Teacher");
-        addTeacher.setBounds(x + (buttonWidth * 2) + 20, y, buttonWidth, buttonHeight);
+        addTeacher.setBounds(x + (buttonWidth * 3) + 30, y, buttonWidth, buttonHeight);
         addTeacher.setFont(new Font("Serif", Font.BOLD, 14));
         addTeacher.addActionListener(this);
         frame.add(addTeacher);
 
         viewTeacher = new JButton("View Teacher");
-        viewTeacher.setBounds(x + (buttonWidth * 3) + 30, y, buttonWidth, buttonHeight);
+        viewTeacher.setBounds(x + (buttonWidth * 4) + 40, y, buttonWidth, buttonHeight);
         viewTeacher.setFont(new Font("Serif", Font.BOLD, 14));
         viewTeacher.addActionListener(this);
         frame.add(viewTeacher);
 
         addCourse = new JButton("Add Course");
-        addCourse.setBounds(x + (buttonWidth * 4) + 40, y, buttonWidth, buttonHeight);
+        addCourse.setBounds(x + (buttonWidth * 5) + 50, y, buttonWidth, buttonHeight);
         addCourse.setFont(new Font("Serif", Font.BOLD, 14));
         addCourse.addActionListener(this);
         frame.add(addCourse);
 
         viewCourse = new JButton("View Course");
-        viewCourse.setBounds(x + (buttonWidth * 5) + 50, y, buttonWidth, buttonHeight);
+        viewCourse.setBounds(x + (buttonWidth * 6) + 60, y, buttonWidth, buttonHeight);
         viewCourse.setFont(new Font("Serif", Font.BOLD, 14));
         viewCourse.addActionListener(this);
         frame.add(viewCourse);
 
         assignTeacherToCourse = new JButton("Assign Teacher");
-        assignTeacherToCourse.setBounds(x + (buttonWidth * 6) + 60, y, buttonWidth, buttonHeight);
+        assignTeacherToCourse.setBounds(x + (buttonWidth * 7) + 70, y, buttonWidth, buttonHeight);
         assignTeacherToCourse.setFont(new Font("Serif", Font.BOLD, 14));
         assignTeacherToCourse.addActionListener(this);
         frame.add(assignTeacherToCourse);
 
         assignStudentToCourse = new JButton("Assign Student");
-        assignStudentToCourse.setBounds(x + (buttonWidth * 7) + 70, y, buttonWidth, buttonHeight);
+        assignStudentToCourse.setBounds(x + (buttonWidth * 8) + 80, y, buttonWidth, buttonHeight);
         assignStudentToCourse.setFont(new Font("Serif", Font.BOLD, 14));
         assignStudentToCourse.addActionListener(this);
         frame.add(assignStudentToCourse);
+
+        removerTecherCourse = new JButton("Remove Teacher");
+        removerTecherCourse.setBounds(x + (buttonWidth * 9) + 90, y, buttonWidth, buttonHeight);
+        removerTecherCourse.setFont(new Font("Serif", Font.BOLD, 14));
+        removerTecherCourse.addActionListener(this);
+        frame.add(removerTecherCourse);
+
+        removeStudentCourse = new JButton("Remove Student");
+        removeStudentCourse.setBounds(x + (buttonWidth * 10) + 100, y, buttonWidth, buttonHeight);
+        removeStudentCourse.setFont(new Font("Serif", Font.BOLD, 14));
+        removeStudentCourse.addActionListener(this);
+        frame.add(removeStudentCourse);
 
     }
 
@@ -117,12 +141,16 @@ public class Gui implements ActionListener {
     private void createComponents() {
         frame.add(addStudentPnl);
         frame.add(viewStudentPnl);
+        frame.add(editGradesPnl);
         frame.add(addTeacherPnl);
         frame.add(viewTeacherPnl);
         frame.add(addCoursePnl);
         frame.add(viewCoursePnl);
         frame.add(assignTeacherToCoursePnl);
         frame.add(assignStudentsToCoursePnl);
+        frame.add(removeTeacherToCoursePnl);
+        frame.add(removeStudentsToCoursePnl);
+
     }
 
     @Override
@@ -178,9 +206,36 @@ public class Gui implements ActionListener {
             assignTeacherToCoursePnl.setVisible(true);
         } else if (e.getSource() == assignStudentToCourse) {
             hidePanel();
-            assignStudentsToCoursePnl.setVisible(true);
-        }
 
+            assignStudentsToCoursePnl.setVisible(true);
+        } else if (e.getSource() == removerTecherCourse) {
+            hidePanel();
+            removerTecherCourse.remove(viewCoursePnl.courseListDropDown);
+            RemoveTeacherToCoursePanel v = new RemoveTeacherToCoursePanel();
+            v.teacherCourseList = DB.listOfTeacherCourse();
+            DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>();
+            for (String s : v.teacherCourseList) {
+                comboBoxModel.addElement(s);
+            }
+            removeTeacherToCoursePnl.courseListDropdown.setModel(comboBoxModel);
+            removeTeacherToCoursePnl.add(removeTeacherToCoursePnl.courseListDropdown);
+            removeTeacherToCoursePnl.setVisible(true);
+        } else if (e.getSource() == removeStudentCourse) {
+            hidePanel();
+            removeStudentCourse.remove(viewCoursePnl.courseListDropDown);
+            RemoveStudentsToCoursePanel v = new RemoveStudentsToCoursePanel();
+            v.studentCourseList = DB.listOfStudentCourse();
+            DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>();
+            for (String s : v.studentCourseList) {
+                comboBoxModel.addElement(s);
+            }
+            removeStudentsToCoursePnl.courseListDropdown.setModel(comboBoxModel);
+            removeStudentsToCoursePnl.add(removeStudentsToCoursePnl.courseListDropdown);
+            removeStudentsToCoursePnl.setVisible(true);
+        }else if(e.getSource() == editGrade){
+            hidePanel();
+            editGradesPnl.setVisible(true);
+        }
     }
 
     public void hidePanel() {
@@ -192,6 +247,9 @@ public class Gui implements ActionListener {
         viewCoursePnl.setVisible(false);
         assignTeacherToCoursePnl.setVisible(false);
         assignStudentsToCoursePnl.setVisible(false);
+        removeTeacherToCoursePnl.setVisible(false);
+        removeStudentsToCoursePnl.setVisible(false);
+        editGradesPnl.setVisible(false);
     }
 
 }

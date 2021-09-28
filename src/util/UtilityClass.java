@@ -34,11 +34,8 @@ public class UtilityClass {
         String[] courseStringArr = course.split(":");
         String endDate = courseStringArr[3];
         String[] EDate = endDate.split("-"); // date format : DD-MM-YYYY;
-
-        if ((Integer.parseInt(EDate[2]) < CurrentYear()) ||
-            (Integer.parseInt(EDate[2]) <= CurrentYear() && Integer.parseInt(EDate[1]) < CurrentMonth()) ||
-            (Integer.parseInt(EDate[2]) <= CurrentYear() && Integer.parseInt(EDate[1]) <= CurrentMonth() && Integer.parseInt(EDate[0]) < CurrentDay())
-        ) {
+        if (Integer.parseInt(EDate[0]) <= CurrentDay() && Integer.parseInt(EDate[1]) <= CurrentMonth()
+                && Integer.parseInt(EDate[2]) <= CurrentYear()) {
             return true;
         }
         return false;

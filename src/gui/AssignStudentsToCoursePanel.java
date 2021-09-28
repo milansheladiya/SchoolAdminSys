@@ -112,18 +112,22 @@ public class AssignStudentsToCoursePanel extends JPanel implements ActionListene
             List<String> items = studentListDropdown.getSelectedValuesList();
             String courseId = String.valueOf(courseListDropdown.getSelectedItem()).split(" - ")[0];
                 if(items.size() + DB.getCourseCurrentStudentCapacity(courseId) <= 5){
-                    for(int i=0;i < items.size();i++)
-                    {
-                        String studentId = String.valueOf(items.get(i)).split(" - ")[0];
-                        String studentName = String.valueOf(items.get(i)).split(" - ")[1];
-                        if(DB.getStudentEnrolledCourseCount(studentId) < 3){
-                            DB.assignCourseToStudent(courseId,studentId);
-                            msgLable.setText("Students Assigned Successfully.");
-                            msgLable.setForeground(Color.green);
-                            courseListDropdown.setSelectedIndex(0);
-                            studentListDropdown.clearSelection();
+                    for (String item : items) {
+                        String studentId = String.valueOf(item).split(" - ")[0];
+                        String studentName = String.valueOf(item).split(" - ")[1];
+                        if(!DB.checkStudentAlreadyEnrolledInCourse(courseId,studentId)){
+                            if (DB.getStudentEnrolledCourseCount(studentId) < 3) {
+                                DB.assignCourseToStudent(courseId, studentId);
+                                msgLable.setText("Students Assigned Successfully.");
+                                msgLable.setForeground(Color.green);
+                                courseListDropdown.setSelectedIndex(0);
+                                studentListDropdown.clearSelection();
+                            } else {
+                                msgLable.setText("Students are only allowed to take 3 courses at once." + studentName + "is already enrolled in 3 courses");
+                                msgLable.setForeground(Color.red);
+                            }
                         }else{
-                            msgLable.setText("Students are only allowed to take 3 courses at once."  + studentName + "is already enrolled in 3 courses");
+                            msgLable.setText( studentName + " is already enrolled in course");
                             msgLable.setForeground(Color.red);
                         }
                     }

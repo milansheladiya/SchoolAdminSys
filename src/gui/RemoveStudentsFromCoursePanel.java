@@ -7,8 +7,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
-
-public class RemoveStudentsToCoursePanel extends JPanel implements ActionListener {
+/**
+ * This class is a Remove student from course panel for GUI. It is having all UI component which
+ * are displayed in Assign course GUI.
+ */
+public class RemoveStudentsFromCoursePanel extends JPanel implements ActionListener {
 
     int screenWidth, screenHeight, buttonWidth;
     public JComboBox<String> courseListDropdown;
@@ -17,7 +20,7 @@ public class RemoveStudentsToCoursePanel extends JPanel implements ActionListene
     public DataController DB;
     static List<String> studentCourseList;
 
-    public RemoveStudentsToCoursePanel() {
+    public RemoveStudentsFromCoursePanel() {
         DB = new DataController();
         studentCourseList = DB.listOfStudentCourse();
 
@@ -35,6 +38,9 @@ public class RemoveStudentsToCoursePanel extends JPanel implements ActionListene
         createComponent();
     }
 
+    /**
+     * It will load all the UI component to UI
+     */
     private void createComponent() {
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.WEST;
@@ -78,11 +84,24 @@ public class RemoveStudentsToCoursePanel extends JPanel implements ActionListene
 
     }
 
+    /**
+     * This is the implementation of {@link ActionListener#actionPerformed(ActionEvent)}
+     * It will be called when remove student button will be clicked to remove student from course.
+     * @param actionEvent the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         removeStudentCourse();
     }
 
+    /**
+     *  It will remove the selected student from course and will delete a record from file.<br>
+     *  <b>Logic:</b> <br>
+     *  We take selected item from dropdown then split it in required format and remove the
+     *  selected student from the course. <br>
+     *  we perform this action using  {@link DataController#removeFromFile(String)}} <br>
+     *  File Record Format which will be removed from file : StudentCourse:courseId:studentId
+     */
     private void removeStudentCourse() {
         String student = String.valueOf(courseListDropdown.getSelectedItem());
         String[] studentCourse = student.split(":");

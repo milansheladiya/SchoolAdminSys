@@ -1,16 +1,23 @@
 package gui;
 
 import controller.DataController;
+import util.UtilityClass;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import static util.UtilityClass.generateUniqueId;
+
+/**
+ * This class is a Add teacher panel for GUI. It is having all UI component which
+ * are displayed in Add teacher GUI.
+ */
 public class AddTeacherPanel extends JPanel implements ActionListener {
     DataController DB;
     int screenWidth, screenHeight, buttonWidth;
-    public JTextField teacherIdTxtField, teacherNameTxtField;
+    public JTextField teacherNameTxtField;
     public JButton addTeacherButton;
     public JLabel msgLable;
     String teacherID, teacherFullName, ListofCourse;
@@ -30,6 +37,9 @@ public class AddTeacherPanel extends JPanel implements ActionListener {
         createComponent();
     }
 
+    /**
+     * It will load all the UI component to UI
+     */
     private void createComponent() {
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.WEST;
@@ -37,22 +47,6 @@ public class AddTeacherPanel extends JPanel implements ActionListener {
 
         constraints.gridx = 0;
         constraints.gridy = 0;
-        JLabel teacherIdLable = new JLabel("Teacher ID");
-        teacherIdLable.setFont(new Font("Serif", Font.PLAIN, 14));
-        teacherIdLable.setSize(300, 30);
-        teacherIdLable.setLocation(300, 30);
-        add(teacherIdLable, constraints);
-
-        constraints.gridx = 1;
-        teacherIdTxtField = new JTextField("Please enter teacher");
-        teacherIdTxtField.setPreferredSize(teacherIdTxtField.getPreferredSize());
-        teacherIdTxtField.setText("");
-        teacherIdTxtField.setFont(new Font("Serif", Font.PLAIN, 14));
-        teacherIdTxtField.setSize(300, 100);
-        add(teacherIdTxtField, constraints);
-
-        constraints.gridx = 0;
-        constraints.gridy = 1;
         JLabel sNameLable = new JLabel("Teacher Name");
         sNameLable.setFont(new Font("Serif", Font.PLAIN, 14));
         sNameLable.setSize(300, 100);
@@ -67,7 +61,7 @@ public class AddTeacherPanel extends JPanel implements ActionListener {
         add(teacherNameTxtField, constraints);
 
         constraints.gridx = 0;
-        constraints.gridy = 2;
+        constraints.gridy = 1;
         constraints.gridwidth = 2;
         constraints.anchor = GridBagConstraints.CENTER;
         addTeacherButton = new JButton("Add Teacher");
@@ -78,7 +72,7 @@ public class AddTeacherPanel extends JPanel implements ActionListener {
         addTeacherButton.addActionListener(this);
 
         constraints.gridx = 0;
-        constraints.gridy = 3;
+        constraints.gridy = 2;
         constraints.gridwidth = 2;
         constraints.anchor = GridBagConstraints.CENTER;
         msgLable = new JLabel("");
@@ -90,6 +84,11 @@ public class AddTeacherPanel extends JPanel implements ActionListener {
         setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Add Teacher"));
     }
 
+    /**
+     * This is the implementation of {@link ActionListener#actionPerformed(ActionEvent)}
+     * It will be called when add teacher button will be clicked to submit the data to file.
+     * @param actionEvent the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         if (actionEvent.getSource() == addTeacherButton) {
@@ -97,29 +96,36 @@ public class AddTeacherPanel extends JPanel implements ActionListener {
         }
     }
 
+    /**
+     * It will add the teacher to the file.
+     * Logic:
+     *  First we check that all fields are filled, otherwise we will show error message. <br>
+     *  After That we generate unique id for teacher using {@link UtilityClass#generateUniqueId()} <br>
+     *  and check if it is already created with same id if so we give error message. <br>
+     *  We find uniqueness using  {@link DataController#checkTeacherExist(String)}} <br>
+     *  Once all the conditions are satisfied we add record to file using {@link DataController#addTeacher(String, String, String)} <br>
+     *  Record Format for teacher: Teacher@teacherID:FullName:CourseName1;CourseName2;......
+     */
     private void addTeacherSubmit() {
-        teacherID = teacherIdTxtField.getText().trim();
         teacherFullName = teacherNameTxtField.getText().trim();
         ListofCourse = "";
+        String teacherID = generateUniqueId();
 
         if (!teacherID.equals("") && !teacherFullName.equals("")) {
-            if (teacherID.matches("^[0-9]*")) 
-            {
-
-                if (DB.checkTeacher(teacherID)) {
-                    msgLable.setText("Teacher id already exist.");
-                } else {
-                    DB = new DataController();
-                    DB.addTeacher(teacherID, teacherFullName, "None");
-                    msgLable.setText("Teacher Added Successfully.");
-                }
-
-            } else 
-            {
-                msgLable.setText("Teacher id must be only number.");
+            if (DB.checkTeacherExist(teacherID)) {
+                msgLable.setText("Teacher id already exist.");
+                msgLable.setForeground(Color.red);
+            } else {
+                DB = new DataController();
+                DB.addTeacher(teacherID, teacherFullName, "None");
+                msgLable.setText("Teacher Added Successfully.");
+                msgLable.setForeground(Color.green);
             }
+
+
         } else {
             msgLable.setText("All fields are mendetory.");
+            msgLable.setForeground(Color.red);
         }
     }
 

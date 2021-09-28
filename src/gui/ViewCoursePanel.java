@@ -7,7 +7,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
-
+/**
+ * This class is a View course panel for GUI. It is having all UI component which
+ * are displayed in Assign course GUI.
+ */
 public class ViewCoursePanel extends JPanel implements ActionListener {
     int screenWidth, screenHeight, buttonWidth;
     public JComboBox<String> courseListDropDown;
@@ -33,6 +36,9 @@ public class ViewCoursePanel extends JPanel implements ActionListener {
         createComponent();
     }
 
+    /**
+     * It will load all the UI component to UI
+     */
     private void createComponent() {
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.WEST;
@@ -76,12 +82,22 @@ public class ViewCoursePanel extends JPanel implements ActionListener {
         setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "View course details"));
 
     }
-
+    /**
+     * This is the implementation of {@link ActionListener#actionPerformed(ActionEvent)} <br>
+     *  It will be called when view course button will be clicked to view course details from file. <br>
+     * @param actionEvent the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         viewCourse();
     }
 
+    /**
+     *  It will show the selected course details from file.<br>
+     *  <b>Logic:</b> <br>
+     *  We take selected item from dropdown then pass it to {@link DataController#fetchCourseById(String)}}, which will
+     *  return the course details from file and we display it to textarea. <br>
+     */
     private void viewCourse() {
         String response = DB.fetchCourseById(String.valueOf(courseListDropDown.getSelectedItem()));
         String[] Variable = response.split(":");
@@ -101,7 +117,6 @@ public class ViewCoursePanel extends JPanel implements ActionListener {
             }
             i++;
         }
-        System.out.println("View Course" + courseDetails);
         CourseDataViewArea.setText(courseDetails.toString());
     }
 }

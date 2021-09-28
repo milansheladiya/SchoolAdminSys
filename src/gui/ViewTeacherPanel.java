@@ -7,7 +7,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
-
+/**
+ * This class is a View teacher panel for GUI. It is having all UI component which
+ * are displayed in Assign course GUI.
+ */
 public class ViewTeacherPanel extends JPanel implements ActionListener {
     DataController DB;
     int screenWidth, screenHeight, buttonWidth;
@@ -33,7 +36,9 @@ public class ViewTeacherPanel extends JPanel implements ActionListener {
         setBackground(Color.lightGray);
         createComponent();
     }
-
+    /**
+     * It will load all the UI component to UI
+     */
     private void createComponent() {
         GridBagConstraints constraints = new GridBagConstraints();
 
@@ -80,12 +85,22 @@ public class ViewTeacherPanel extends JPanel implements ActionListener {
         setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "View Teacher"));
 
     }
-
+    /**
+     * This is the implementation of {@link ActionListener#actionPerformed(ActionEvent)} <br>
+     * It will be called when view teacher button will be clicked to view teacher details from file. <br>
+     * @param actionEvent the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         viewTeacher();
     }
 
+    /**
+     *  It will show the selected teacher details from file.<br>
+     *  <b>Logic:</b> <br>
+     *  We take selected item from dropdown then pass it to {@link DataController#fetchTeacherById(String)}}, which will
+     *  return the teacher details from file and we display it to textarea. <br>
+     */
     private void viewTeacher() {
         String teacherDetails = DB.fetchTeacherById(String.valueOf(teacherIdDropdown.getSelectedItem()));
         System.out.println("View Teacher" + teacherDetails);

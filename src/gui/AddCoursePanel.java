@@ -11,6 +11,10 @@ import java.util.List;
 
 import static util.UtilityClass.*;
 
+/**
+ * This class is a Add course panel for GUI. It is having all UI component which
+ * are displayed in Add course GUI.
+ */
 public class AddCoursePanel extends JPanel implements ActionListener {
     int screenWidth, screenHeight, buttonWidth;
     public JTextField courseNameTxtField,courseStartDateTxtField, courseEndDateTxtField;
@@ -36,6 +40,9 @@ public class AddCoursePanel extends JPanel implements ActionListener {
         createComponent();
     }
 
+    /**
+     * It will load all the UI component to UI
+     */
     private void createComponent() {
 
         GridBagConstraints constraints = new GridBagConstraints();
@@ -126,10 +133,26 @@ public class AddCoursePanel extends JPanel implements ActionListener {
         setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Add Course"));
     }
 
+    /**
+     * This is the implementation of {@link ActionListener#actionPerformed(ActionEvent)}
+     * It will be called when add course button will be clicked to submit the data to file.
+     * @param actionEvent the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         addCourseSubmit();
     }
+
+    /**
+     * It will add the course to the file.
+     * Logic:
+     *  First we check that all fields are filled, otherwise we will show error message.
+     *  After That we check that the date format of Start and End date of course is valid using.
+     *  Then we check if dates are valid and are not in past.
+     *  All the validation for date are performed using ${@link UtilityClass#dateFormatCheck(String)}.
+     *  Once all the conditions are satisfied we add record to file using {@link DataController#addCourse(String, String, String, String, String)}
+     *  Record Format for teacher: Course@courseId:courseName:startDate:endDate:PreRequisite
+     */
     private void addCourseSubmit() {
 
         if(!courseNameTxtField.getText().equals("") && !courseStartDateTxtField.getText().equals("") && !courseEndDateTxtField.getText().equals(""))
@@ -146,7 +169,6 @@ public class AddCoursePanel extends JPanel implements ActionListener {
                         {
                             PreCourse = PreCourse + ";" + items.get(i);
                         }
-
 
                     //Course@courseId:courseName:startDate:endDate:PreRequisite
                     DB.addCourse(generateUniqueId(),courseNameTxtField.getText(),courseStartDateTxtField.getText(),courseEndDateTxtField.getText(),PreCourse);

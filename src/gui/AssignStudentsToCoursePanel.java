@@ -8,6 +8,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+
+/**
+ * This class is a Assign student to course panel for GUI. It is having all UI component which
+ * are displayed in Assign course GUI.
+ */
 public class AssignStudentsToCoursePanel extends JPanel implements ActionListener {
 
     int screenWidth, screenHeight, buttonWidth;
@@ -37,6 +42,9 @@ public class AssignStudentsToCoursePanel extends JPanel implements ActionListene
         createComponent();
     }
 
+    /**
+     * It will load all the UI component to UI
+     */
     private void createComponent() {
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.WEST;
@@ -101,12 +109,26 @@ public class AssignStudentsToCoursePanel extends JPanel implements ActionListene
         setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Assign Students"));
 
     }
-
+    /**
+     * This is the implementation of {@link ActionListener#actionPerformed(ActionEvent)}
+     * It will be called when assign student button will be clicked to submit the data to file.
+     * @param actionEvent the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         assignStudentToCourseSubmit();
     }
 
+    /**
+     *  It will assign the selected students to selected course and create a record in file.<br>
+     *  <b>Logic:</b> <br>
+     *  First we check that student is selected, otherwise we will show error message.<br>
+     *  Then we check if course is having maximum capacity or not using ${@link DataController#getCourseCurrentStudentCapacity(String)} <br>
+     *  Then we check if student is already enrolled in course or not using ${@link DataController#checkStudentAlreadyEnrolledInCourse(String, String)}<br>
+     *  At last we check if student is already enrolled for 3 courses or not using ${@link DataController#getStudentEnrolledCourseCount(String)}<br>
+     *  Once all the conditions are satisfied we add record to file using {@link DataController#assignCourseToStudent(String, String)} <br>
+     *  File Record Format for Assign Student: StudentCourse:courseId:studentId
+     */
     private void assignStudentToCourseSubmit() {
         if(studentListDropdown.getSelectedValue() != null){
             List<String> items = studentListDropdown.getSelectedValuesList();

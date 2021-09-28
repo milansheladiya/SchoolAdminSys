@@ -7,7 +7,30 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ *      @author Milan Sheladiya - 2092040
+ *              Dishant Desai - 2094440
+ *              Namra Patel - 2093971
+ *
+ *      @version 1.0.0 <br>
+ *
+ *      This class is School Administrator GUI which have all the functionality as below.
+ *      Admin can:
+ *      1. Add student
+ *      2. Add teacher
+ *      3. View student
+ *      4. View teacher
+ *      5. Add course
+ *      6. View course
+ *      7. Assign/remove teacher from course
+ *      8. Assign/remove student from course
+ *
+ *      We have used the GridBagLayout for all the panels except Parent frame.
+ */
 public class Gui implements ActionListener {
+    /**
+     * This is the object of class {@link DataController} to access the file operations from controller.
+     */
     DataController DB;
 
     AddStudentPanel addStudentPnl;
@@ -18,7 +41,7 @@ public class Gui implements ActionListener {
     ViewCoursePanel viewCoursePnl;
     AssignTeacherToCoursePanel assignTeacherToCoursePnl;
     AssignStudentsToCoursePanel assignStudentsToCoursePnl;
-    RemoveStudentsToCoursePanel removeStudentsToCoursePnl;
+    RemoveStudentsFromCoursePanel removeStudentsToCoursePnl;
     RemoveTeacherToCoursePanel removeTeacherToCoursePnl;
     EditGrades editGradesPnl;
 
@@ -39,7 +62,7 @@ public class Gui implements ActionListener {
         viewCoursePnl = new ViewCoursePanel();
         assignTeacherToCoursePnl = new AssignTeacherToCoursePanel();
         assignStudentsToCoursePnl = new AssignStudentsToCoursePanel();
-        removeStudentsToCoursePnl = new RemoveStudentsToCoursePanel();
+        removeStudentsToCoursePnl = new RemoveStudentsFromCoursePanel();
         removeTeacherToCoursePnl = new RemoveTeacherToCoursePanel();
         editGradesPnl = new EditGrades();
 
@@ -49,7 +72,6 @@ public class Gui implements ActionListener {
         buttonWidth = screenWidth / 12;
         buttonHeight = 40;
 
-        frame.add(new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS));
         // Menu Buttons
         buttonInit();
 
@@ -223,7 +245,7 @@ public class Gui implements ActionListener {
         } else if (e.getSource() == removeStudentCourse) {
             hidePanel();
             removeStudentCourse.remove(viewCoursePnl.courseListDropDown);
-            RemoveStudentsToCoursePanel v = new RemoveStudentsToCoursePanel();
+            RemoveStudentsFromCoursePanel v = new RemoveStudentsFromCoursePanel();
             v.studentCourseList = DB.listOfStudentCourse();
             DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>();
             for (String s : v.studentCourseList) {
@@ -238,6 +260,9 @@ public class Gui implements ActionListener {
         }
     }
 
+    /**
+     * It will hide the all panels from GUI.
+     */
     public void hidePanel() {
         addStudentPnl.setVisible(false);
         viewStudentPnl.setVisible(false);

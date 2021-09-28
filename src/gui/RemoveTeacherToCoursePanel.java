@@ -78,11 +78,24 @@ public class RemoveTeacherToCoursePanel extends JPanel implements ActionListener
 
     }
 
+    /**
+     * This is the implementation of {@link ActionListener#actionPerformed(ActionEvent)} <br>
+     * It will be called when remove teacher button will be clicked to remove teacher from course. <br>
+     * @param actionEvent the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         removeTeacherCourse();
     }
 
+    /**
+     *  It will remove the selected teacher from course and will delete a record from file.<br>
+     *  <b>Logic:</b> <br>
+     *  We take selected item from dropdown then split it in required format and remove the
+     *  selected teacher from the course. <br>
+     *  we perform this action using  {@link DataController#removeFromFile(String)}} <br>
+     *  File Record Format which will be removed from file: TeacherCourse:courseId:teacherId
+     */
     private void removeTeacherCourse() {
         String teacher = String.valueOf(courseListDropdown.getSelectedItem());
         String[] teacherCourse = teacher.split(":");

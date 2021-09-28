@@ -8,6 +8,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+/**
+ * This class is a View student panel for GUI. It is having all UI component which
+ * are displayed in Assign course GUI.
+ */
 public class ViewStudentPanel extends JPanel implements ActionListener {
     DataController DB;
     int screenWidth, screenHeight, buttonWidth;
@@ -33,6 +37,9 @@ public class ViewStudentPanel extends JPanel implements ActionListener {
         createComponent();
     }
 
+    /**
+     * It will load all the UI component to UI
+     */
     private void createComponent() {
         GridBagConstraints constraints = new GridBagConstraints();
 
@@ -81,11 +88,22 @@ public class ViewStudentPanel extends JPanel implements ActionListener {
 
     }
 
+    /**
+     * This is the implementation of {@link ActionListener#actionPerformed(ActionEvent)} <br>
+     * It will be called when view student button will be clicked to view student details from file. <br>
+     * @param actionEvent the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         viewStudent();
     }
 
+    /**
+     *  It will show the selected student details from file.<br>
+     *  <b>Logic:</b> <br>
+     *  We take selected item from dropdown then pass it to {@link DataController#fetchStudentById(String)}}, which will
+     *  return the student details from file and we display it to textarea. <br>
+     */
     private void viewStudent() {
         String studentDetails = DB.fetchStudentById(String.valueOf(studentIdDropdown.getSelectedItem()));
         System.out.println("View Student" + studentDetails);

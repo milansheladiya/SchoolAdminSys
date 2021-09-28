@@ -5,8 +5,13 @@ import controller.DataController;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
+/**
+ * This class is a Edit grades panel for GUI. It is having all UI component which
+ * are displayed in Assign course GUI.
+ */
 public class EditGrades extends JPanel {
 
     public int screenWidth, screenHeight, buttonWidth;
@@ -36,7 +41,9 @@ public class EditGrades extends JPanel {
         setBackground(Color.lightGray);
         createComponent();
     }
-
+    /**
+     * It will load all the UI component to UI
+     */
     private void createComponent() {
         constraints.anchor = GridBagConstraints.WEST;
         constraints.insets = new Insets(10, 10, 10, 10);
@@ -103,14 +110,33 @@ public class EditGrades extends JPanel {
         add(msgLabel, constraints);
         setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Edit Student Grade"));
     }
+    /**
+     * This is the implementation of {@link ActionListener#actionPerformed(ActionEvent)}<br>
+     * It will be called when select course value change to load the student related to selected
+     * course only.
+     * @param actionEvent the event to be processed
+     */
     private void loadStudentDataHandler(ActionEvent actionEvent) {
         loadStudentData();
     }
+
+    /**
+     *  This is the implementation of {@link ActionListener#actionPerformed(ActionEvent)}<br>
+     *  It will be called when edit grade button will be clicked to submit the data to file.
+     * @param actionEvent the event to be processed
+     */
     private void editGradeHandler(ActionEvent actionEvent) {
-        System.out.println("Edit");
         editStudentGrade();
     }
 
+    /**
+     * This method will be use for loading a student records from file based on selected course in course dropdown.<br>
+     *     <b>Logic:</b> <br>
+     *         We check if course has any enrolled student or not otherwise it will gives an error.<br>
+     *         We fetch the students record using ${@link DataController#fetchCourseStudentsById(String)}<br>
+     *         Once we get students record we fetch the student details for each student we got previously using
+     *         ${@link DataController#fetchStudentDetailsById(String)}
+     */
     private void loadStudentData() {
         msgLabel.setText("");
         constraints.gridx = 1;

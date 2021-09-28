@@ -8,6 +8,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+/**
+ * This class is a Assign teacher to course panel for GUI. It is having all UI component which
+ * are displayed in Assign course GUI.
+ */
 public class AssignTeacherToCoursePanel extends JPanel implements ActionListener {
     int screenWidth, screenHeight, buttonWidth;
     public JComboBox<String> courseListDropdown, teacherListDropdown;
@@ -34,6 +38,9 @@ public class AssignTeacherToCoursePanel extends JPanel implements ActionListener
         createComponent();
     }
 
+    /**
+     * It will load all the UI component to UI
+     */
     private void createComponent() {
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.WEST;
@@ -96,11 +103,27 @@ public class AssignTeacherToCoursePanel extends JPanel implements ActionListener
 
     }
 
+    /**
+     * This is the implementation of {@link ActionListener#actionPerformed(ActionEvent)}
+     *  It will be called when assign teacher button will be clicked to submit the data to file.
+     * @param actionEvent the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         assignTeacherToCourseSubmit();
     }
 
+
+    /**
+     *  It will assign the selected teacher to selected course and create a record in file.<br>
+     *  <b>Logic:</b> <br>
+     *  First we check that teacher is selected, otherwise we will show error message.<br>
+     *  we check if course is having maximum capacity for teacher or not using ${@link DataController#getCourseCurrentTeacherCapacity(String)} <br>
+     *  we check if teacher is already assigned in course or not using ${@link DataController#checkTeacherAlreadyAssignedInCourse(String, String)}<br>
+     *  At last we check if student is already assigned for 2 courses or not using ${@link DataController#getTeacherTeachingCourseCount(String)}<br>
+     *  Once all the conditions are satisfied we add record to file using {@link DataController#assignCourseToTeacher(String, String)}} <br>
+     *  File Record Format for Assign Teacher: TeacherCourse:courseId:teacherId
+     */
     private void assignTeacherToCourseSubmit() {
         if (teacherListDropdown.getSelectedItem() != null) {
             String teacherId = String.valueOf(teacherListDropdown.getSelectedItem()).split(" - ")[0];

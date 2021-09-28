@@ -1,3 +1,4 @@
+
 Student@2021:Milan Sheladiya:Maths;Science;States
 Student@2020:Piyank:Maths;Science;States
 Course@2092:Advance Data Communication:12-6-2021:16-10-2021:None
@@ -19,5 +20,4 @@ TeacherCourse:20210927172832:3223
 TeacherCourse:20210926232041:2313
 TeacherCourse:20210927173428:1233
 StudentCourse:2092:2021
-StudentCourse:2092:2020
 StudentCourse:2092:12345

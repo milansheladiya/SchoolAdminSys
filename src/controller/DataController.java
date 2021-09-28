@@ -10,7 +10,6 @@ import static util.UtilityClass.*;
 public class DataController {
 
     FileReader reader;
-    BufferedReader bufferedReader;
     File file;
 
     public DataController() {
@@ -23,7 +22,7 @@ public class DataController {
         try {
             FileReader reader = new FileReader(file);
 
-            bufferedReader = new BufferedReader(reader);
+            BufferedReader bufferedReader = new BufferedReader(reader);
             String line;
             while (true) {
                 while ((line = bufferedReader.readLine()) != null) {
@@ -50,7 +49,7 @@ public class DataController {
         try {
 
             FileReader reader = new FileReader(file);
-            bufferedReader = new BufferedReader(reader);
+            BufferedReader bufferedReader = new BufferedReader(reader);
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 String[] student = line.split("@");
@@ -85,7 +84,7 @@ public class DataController {
         try {
 
             FileReader reader = new FileReader(file);
-            bufferedReader = new BufferedReader(reader);
+            BufferedReader bufferedReader = new BufferedReader(reader);
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 String[] teacher = line.split("@");
@@ -195,7 +194,7 @@ public class DataController {
         try {
 
             FileReader reader = new FileReader(file);
-            bufferedReader = new BufferedReader(reader);
+            BufferedReader bufferedReader = new BufferedReader(reader);
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 String[] studentCourse = line.split(":");
@@ -227,7 +226,7 @@ public class DataController {
         try {
 
             FileReader reader = new FileReader(file);
-            bufferedReader = new BufferedReader(reader);
+            BufferedReader bufferedReader = new BufferedReader(reader);
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 String[] teacherCourse = line.split(":");
@@ -258,10 +257,11 @@ public class DataController {
         int count = 0;
         try {
             FileReader reader = new FileReader(file);
-            bufferedReader = new BufferedReader(reader);
+            BufferedReader bufferedReader1 = new BufferedReader(reader);
             String line;
-            while ((line = bufferedReader.readLine()) != null) {
+            while ((line = bufferedReader1.readLine()) != null) {
                 String[] teacherCourse = line.split(":");
+                System.out.println("line" + line );
                 if (teacherCourse[0].equals("TeacherCourse") && teacherId.equals(teacherCourse[2])) {
                     String course = fetchCourseById(teacherCourse[1]);
                     if (!isPastCourse(course)) {
@@ -289,7 +289,7 @@ public class DataController {
         int count = 0;
         try {
             FileReader reader = new FileReader(file);
-            bufferedReader = new BufferedReader(reader);
+            BufferedReader bufferedReader = new BufferedReader(reader);
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 String[] studentCourse = line.split(":");
@@ -321,7 +321,7 @@ public class DataController {
         try {
 
             FileReader reader = new FileReader(file);
-            bufferedReader = new BufferedReader(reader);
+            BufferedReader bufferedReader = new BufferedReader(reader);
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 String[] Course = line.split("@");
@@ -358,7 +358,7 @@ public class DataController {
         List<String> list = new ArrayList<>();
         try {
             FileReader reader = new FileReader(file);
-            bufferedReader = new BufferedReader(reader);
+            BufferedReader bufferedReader = new BufferedReader(reader);
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 String[] Course = line.split("@");
@@ -388,7 +388,7 @@ public class DataController {
         List<String> list = new ArrayList<>();
         try {
             FileReader reader = new FileReader(file);
-            bufferedReader = new BufferedReader(reader);
+            BufferedReader bufferedReader = new BufferedReader(reader);
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 String[] Student = line.split("@");
@@ -418,7 +418,7 @@ public class DataController {
         List<String> list = new ArrayList<>();
         try {
             FileReader reader = new FileReader(file);
-            bufferedReader = new BufferedReader(reader);
+            BufferedReader bufferedReader = new BufferedReader(reader);
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 String[] Student = line.split("@");
@@ -448,7 +448,7 @@ public class DataController {
         List<String> list = new ArrayList<>();
         try {
             FileReader reader = new FileReader(file);
-            bufferedReader = new BufferedReader(reader);
+            BufferedReader bufferedReader = new BufferedReader(reader);
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 String[] Student = line.split("@");
@@ -478,7 +478,7 @@ public class DataController {
         List<String> list = new ArrayList<>();
         try {
             FileReader reader = new FileReader(file);
-            bufferedReader = new BufferedReader(reader);
+            BufferedReader bufferedReader = new BufferedReader(reader);
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 String[] Student = line.split("@");
@@ -508,7 +508,7 @@ public class DataController {
         List<String> list = new ArrayList<>();
         try {
             FileReader reader = new FileReader(file);
-            bufferedReader = new BufferedReader(reader);
+            BufferedReader bufferedReader = new BufferedReader(reader);
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 String[] teacher = line.split("@");
@@ -538,7 +538,7 @@ public class DataController {
         StringBuilder studentDetails = new StringBuilder();
         try {
             FileReader reader = new FileReader(file);
-            bufferedReader = new BufferedReader(reader);
+            BufferedReader bufferedReader = new BufferedReader(reader);
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 String[] Student = line.split("@");
@@ -572,17 +572,17 @@ public class DataController {
         return studentDetails.toString();
     }
 
-    public String fetchTeacherById(String teaherId) {
+    public String fetchTeacherById(String teacherId) {
         StringBuilder teacherDetails = new StringBuilder();
         try {
             FileReader reader = new FileReader(file);
-            bufferedReader = new BufferedReader(reader);
+            BufferedReader bufferedReader = new BufferedReader(reader);
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 String[] Student = line.split("@");
                 if (Student[0].equals("Teacher")) {
                     String[] Variable = Student[1].split(":");
-                    if (Variable[0].equals(teaherId)) {
+                    if (Variable[0].equals(teacherId)) {
                         int i = 0;
                         for (String value : Variable) {
                             if (i == 0) {
@@ -612,9 +612,9 @@ public class DataController {
         String courseDetails = "";
         try {
             FileReader reader = new FileReader(file);
-            bufferedReader = new BufferedReader(reader);
+            BufferedReader fetchCourseBufferedReader = new BufferedReader(reader);
             String line;
-            while ((line = bufferedReader.readLine()) != null) {
+            while ((line = fetchCourseBufferedReader.readLine()) != null) {
                 String[] course = line.split("@");
                 if (course[0].equals("Course")) {
                     String[] Variable = course[1].split(":");

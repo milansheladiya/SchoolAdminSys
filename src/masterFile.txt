@@ -17,9 +17,5 @@ Course@20210927210129:Drawing:12-12-2021:12-01-2022:None
 Student@234234:New Student::attendance = 90%:grade = A++
 StudentCourse:2092:2020
 StudentCourse:2092:12345
-StudentCourse:2092:2021
-StudentCourse:2092:12345
 TeacherCourse:2092:1233
-TeacherCourse:20210926231857:1233
-TeacherCourse:20210926232041:1233TeacherCourse:20210927172832:1233
-TeacherCourse:20210927172832:1233
+TeacherCourse:20210926232041:1233

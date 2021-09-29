@@ -104,7 +104,8 @@ public class ViewStudentPanel extends JPanel implements ActionListener {
      *  We take selected item from dropdown then pass it to {@link DataController#fetchStudentById(String)}}, which will
      *  return the student details from file and we display it to textarea. <br>
      */
-    private void viewStudent() {
+    private void viewStudent()
+    {
         String studentDetails = DB.fetchStudentById(String.valueOf(studentIdDropdown.getSelectedItem()));
         System.out.println("View Student" + studentDetails);
         studentDataViewArea.setText(studentDetails);

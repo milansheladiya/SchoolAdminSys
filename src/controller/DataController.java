@@ -3,6 +3,7 @@ package controller;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import static util.UtilityClass.*;
 
@@ -60,7 +61,7 @@ public class DataController {
 
         if (shouldAdd) {
             try {
-
+                fileData = fileData.replaceAll("\n+", "\n");
                 FileWriter writer = new FileWriter(file, false);
                 BufferedWriter buffer = new BufferedWriter(writer);
                 buffer.write(fileData);
@@ -244,8 +245,7 @@ public class DataController {
             FileWriter writer = new FileWriter(file, true);
             BufferedWriter bufferedWriter = new BufferedWriter(writer);
 
-            bufferedWriter.write("Student@" + studentID + ":" + studentFullName + ":" + listOfCourse
-                    + ":attendance = 90%:grade = A++");
+            bufferedWriter.write("Student@" + studentID + ":" + studentFullName + ":" + listOfCourse);
             bufferedWriter.newLine();
 
             bufferedWriter.close();
@@ -312,7 +312,7 @@ public class DataController {
             FileWriter writer = new FileWriter(file, true);
             BufferedWriter bufferedWriter = new BufferedWriter(writer);
 
-            bufferedWriter.write("\nStudentCourse" + ":" + courseId + ":" + studentId);
+            bufferedWriter.write("\nStudentCourse" + ":" + courseId + ":" + studentId+":attendance=100:grade=0");
             bufferedWriter.newLine();
 
             bufferedWriter.close();
@@ -834,6 +834,7 @@ public class DataController {
      */
     public String fetchStudentById(String studentId) {
         StringBuilder studentDetails = new StringBuilder();
+        String currentCourse = "";
         try {
             FileReader reader = new FileReader(file);
             BufferedReader bufferedReader = new BufferedReader(reader);
@@ -850,13 +851,28 @@ public class DataController {
                             } else if (i == 1) {
                                 studentDetails.append("Student Name = ").append(value).append("\n");
                             } else if (i == 2) {
-                                studentDetails.append("Student Subject = ").append(value).append("\n");
+                                studentDetails.append("Student Past Subject = ").append(value).append("\n");
                             } else {
                                 studentDetails.append(value).append("\n");
                             }
                             i++;
                         }
                     }
+                }
+                String[] Variable = line.split(":");
+                if(Variable[0].equals("StudentCourse"))
+                {
+                    if(Variable[2].equals(studentId))
+                    {
+                        if((Variable[4].split("=")[1]).equals("0"))
+                        {
+                            currentCourse = currentCourse + "Current Course = " + getCourseName(Variable[1]) + " \n[" + Variable[3] + " , grade = (On going session)]\n";
+                        }
+                        else {
+                            currentCourse = currentCourse + "Current Course = " + getCourseName(Variable[1]) + " \n[" + Variable[3] + " , " + Variable[4] + "]\n";
+                        }
+                    }
+
                 }
             }
         } catch (Exception ex) {
@@ -867,7 +883,34 @@ public class DataController {
             }
             printConsole(ex.getMessage());
         }
+        if(currentCourse.equals(""))
+        {
+            currentCourse = "[ Courses not assigned for current session! ]";
+        }
+        studentDetails.append(currentCourse);
         return studentDetails.toString();
+    }
+
+    public String getCourseName(String CourseID)
+    {
+        String cName = "";
+        try {
+            FileReader reader = new FileReader(file);
+            BufferedReader bufferedReader = new BufferedReader(reader);
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] course = line.split("@");
+                if (course[0].equals("Course")) {
+                    String[] Variable = course[1].split(":");
+                    if (Variable[0].equals(CourseID)) {
+                        cName = Variable[1];
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            printConsole(ex.getMessage());
+        }
+        return cName;
     }
 
     /**
@@ -877,6 +920,8 @@ public class DataController {
      */
     public String fetchTeacherById(String teacherId) {
         StringBuilder teacherDetails = new StringBuilder();
+        String teachCourse = "";
+
         try {
             FileReader reader = new FileReader(file);
             BufferedReader bufferedReader = new BufferedReader(reader);
@@ -893,12 +938,22 @@ public class DataController {
                             } else if (i == 1) {
                                 teacherDetails.append("Teacher Name = " + value + "\n");
                             } else if (i == 2) {
-                                teacherDetails.append("Teacher Subject = " + value + "\n");
+                                //teacherDetails.append("Teacher Subject = " + value + "\n");
                             }
                             i++;
                         }
                     }
                 }
+
+                String[] tCourse = line.split(":");
+                if(tCourse[0].equals("TeacherCourse"))
+                {
+                    if(tCourse[2].equals(teacherId))
+                    {
+                        teachCourse = teachCourse + getCourseDetails(tCourse[1]);
+                    }
+                }
+
             }
         } catch (Exception ex) {
             try {
@@ -908,8 +963,38 @@ public class DataController {
             }
             printConsole(ex.getMessage());
         }
+
+        if(teachCourse.equals(""))
+        {
+            teachCourse = " [ Courses not assigned to this Teacher! ]";
+        }
+        teacherDetails.append(teachCourse);
         return teacherDetails.toString();
     }
+
+    public String getCourseDetails(String CourseID)
+    {
+        String cName = "";
+        try {
+            FileReader reader = new FileReader(file);
+            BufferedReader bufferedReader = new BufferedReader(reader);
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] course = line.split("@");
+                if (course[0].equals("Course")) {
+                    String[] Variable = course[1].split(":");
+                    if (Variable[0].equals(CourseID)) {
+
+                        cName += "Teacher Subject : "+Variable[1] + " (subID: "+ Variable[0] +" ) [ " + (isPastCourse(course[1]) == true ? "Past Course" : "Current Course") + " ]\n";
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            printConsole(ex.getMessage());
+        }
+        return cName;
+    }
+
 
     /**
      * This is used to get the name of particular teacher from the file.
@@ -1001,14 +1086,167 @@ public class DataController {
                 }
             }
         } catch (Exception ex) {
-            try {
-                reader.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
             printConsole(ex.getMessage());
         }
+
+
         return courseDetails;
+    }
+
+    public String getViewCourseFurther(String CourseID)
+    {
+        String sName = "";
+        try {
+            FileReader reader = new FileReader(file);
+            BufferedReader bufferedReader = new BufferedReader(reader);
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] course = line.split(":");
+                if (course[0].equals("StudentCourse")) {
+                    if (course[1].equals(CourseID)) {
+                        if(Integer.parseInt(course[4].split("=")[1]) < 60)
+                        {
+                            if(course[4].split("=")[1].equals("0"))
+                            {
+                                sName = sName + getStudentNameById(course[2]) + " ,  grade=( grade not assigned )\n";
+                            }
+                            else
+                            {
+                                sName = sName + getStudentNameById(course[2]) + "  ,  " +course[4] + "\n";
+                            }
+
+                        }
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            printConsole(ex.getMessage());
+        }
+        return sName;
+    }
+
+    public String getFailingStudentList(String CourseID)
+    {
+        String sName = "";
+        try {
+            FileReader reader = new FileReader(file);
+            BufferedReader bufferedReader = new BufferedReader(reader);
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] course = line.split(":");
+                if (course[0].equals("StudentCourse")) {
+                    if (course[1].equals(CourseID)) {
+                        if(Integer.parseInt(course[4].split("=")[1]) < 60)
+                        {
+                            if(course[4].split("=")[1].equals("0"))
+                            {
+                                sName = sName + getStudentNameById(course[2]) + " ,  grade=( grade not assigned )\n";
+                            }
+                            else
+                            {
+                                sName = sName + getStudentNameById(course[2]) + "  ,  " +course[4] + "\n";
+                            }
+
+                        }
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            printConsole(ex.getMessage());
+        }
+        return sName;
+    }
+
+
+    public String getAvgAttendance(String CourseID)
+    {
+        int avgAttande = 0;
+        String str = "";
+        int cnt = 0;
+        try {
+            FileReader reader = new FileReader(file);
+            BufferedReader bufferedReader = new BufferedReader(reader);
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] course = line.split(":");
+                if (course[0].equals("StudentCourse")) {
+                    if (course[1].equals(CourseID)) {
+                        avgAttande = avgAttande + Integer.parseInt(course[3].split("=")[1]);
+                        cnt++;
+                    }
+                }
+            }
+            if(cnt > 0)
+            {
+                str = String.valueOf(avgAttande/cnt);
+            }
+            else
+            {
+                str = " [ No student assigned ]";
+            }
+
+        } catch (Exception ex) {
+            printConsole(ex.getMessage());
+        }
+        return str;
+    }
+
+    public String getAvgGrade(String CourseID)
+    {
+        int avgGrade = 0;
+        String str = "";
+        int cnt = 0;
+        try {
+            FileReader reader = new FileReader(file);
+            BufferedReader bufferedReader = new BufferedReader(reader);
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] course = line.split(":");
+                if (course[0].equals("StudentCourse")) {
+                    if (course[1].equals(CourseID)) {
+                        avgGrade = avgGrade + Integer.parseInt(course[4].split("=")[1]);
+                        cnt++;
+                    }
+                }
+            }
+            if(cnt > 0)
+            {
+                str = String.valueOf(avgGrade/cnt);
+            }
+            else
+            {
+                str = " [ No student assigned ]";
+            }
+
+        } catch (Exception ex) {
+            printConsole(ex.getMessage());
+        }
+        return str;
+    }
+
+
+    public String getStudentNameById(String studentID)
+    {
+        String sName = "";
+        try {
+            FileReader reader = new FileReader(file);
+            BufferedReader bufferedReader = new BufferedReader(reader);
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] course = line.split("@");
+                if (course[0].equals("Student")) {
+                    String[] Variable = course[1].split(":");
+                    if (Variable[0].equals(studentID)) {
+
+                        sName = Variable[1];
+                        break;
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            printConsole(ex.getMessage());
+        }
+        return sName;
     }
 
     /**
@@ -1048,4 +1286,71 @@ public class DataController {
         System.out.println(msg);
     }
 
+    /**
+     * This is used to get the list of all enrolled students for particular course.
+     * @param courseId for which data needs to be get
+     * @param studentId for which data needs to be get
+     * @return return the grade of specific students in specific course
+     */
+    public String fetchGradeOfStudent(String courseId,String studentId)
+    {
+        String grade="0";
+        try {
+            FileReader reader = new FileReader(file);
+            BufferedReader fetchCourseBufferedReader = new BufferedReader(reader);
+            String line;
+            while ((line = fetchCourseBufferedReader.readLine()) != null) {
+                String[] courseStudent = line.split(":");
+                if (courseStudent[0].equals("StudentCourse") && courseId.equals(courseStudent[1]) && studentId.equals(courseStudent[2])) {
+                   grade = courseStudent[4].split("=")[1];
+                    break;
+                }
+            }
+            reader.close();
+        } catch (Exception ex) {
+            printConsole(ex.getMessage());
+        }
+        return grade;
+    }
+
+
+    public void editStudentGrade(String courseId, String studentId, String grade) {
+        ArrayList<String> tempArray = new ArrayList<>();
+
+        try {
+            FileReader reader = new FileReader(file);
+            BufferedReader fetchCourseBufferedReader = new BufferedReader(reader);
+            String line;
+            while ((line = fetchCourseBufferedReader.readLine()) != null) {
+                String[] courseStudent = line.split(":");
+                if (courseStudent[0].equals("StudentCourse") && courseId.equals(courseStudent[1]) && studentId.equals(courseStudent[2])) {
+                    tempArray.add("StudentCourse:"+courseStudent[1]+":"+courseStudent[2]+":"+courseStudent[3]+":grade="+grade);
+                }
+                else
+                {
+                    tempArray.add(line);
+                }
+            }
+            reader.close();
+        } catch (Exception ex) {
+            try {
+                reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            printConsole(ex.getMessage());
+        }
+
+
+            try(PrintWriter pr = new PrintWriter(file)){
+                for(String str : tempArray){
+                    pr.println(str);
+                }
+                pr.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+    }
 }

@@ -8,6 +8,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+import static util.UtilityClass.isContainDigit;
+import static util.UtilityClass.printConsole;
+
 /**
  * This class is a Edit grades panel for GUI. It is having all UI component which
  * are displayed in Assign course GUI.
@@ -47,6 +50,7 @@ public class EditGrades extends JPanel {
     private void createComponent() {
         constraints.anchor = GridBagConstraints.WEST;
         constraints.insets = new Insets(10, 10, 10, 10);
+        gradeTxtField = new JTextField("");
 
         // add components to the panel
         constraints.gridx = 0;
@@ -73,9 +77,9 @@ public class EditGrades extends JPanel {
         selectStudentLabel.setFont(new Font("Serif", Font.PLAIN, 14));
         selectStudentLabel.setSize(300, 100);
         add(selectStudentLabel, constraints);
-
         loadStudentData();
         add(studentListDropdown, constraints);
+        studentListDropdown.addActionListener(this::loadStudentGradeDataHandler);
 
         constraints.gridx = 0;
         constraints.gridy = 2;
@@ -86,10 +90,13 @@ public class EditGrades extends JPanel {
         add(gradeLabel, constraints);
 
         constraints.gridx = 1;
-        gradeTxtField = new JTextField("");
+
         gradeTxtField.setColumns(12);
         gradeTxtField.setFont(new Font("Serif", Font.PLAIN, 14));
         gradeTxtField.setSize(300, 100);
+        Font font1 = new Font("SansSerif", Font.BOLD, 15);
+        gradeTxtField.setFont(font1);
+        gradeTxtField.setHorizontalAlignment(JTextField.CENTER);
         add(gradeTxtField, constraints);
 
         constraints.gridx = 0;
@@ -119,6 +126,9 @@ public class EditGrades extends JPanel {
     private void loadStudentDataHandler(ActionEvent actionEvent) {
         loadStudentData();
     }
+    private void loadStudentGradeDataHandler(ActionEvent actionEvent) {
+        loadStudentGrade();
+    }
 
     /**
      *  This is the implementation of {@link ActionListener#actionPerformed(ActionEvent)}<br>
@@ -140,7 +150,6 @@ public class EditGrades extends JPanel {
     private void loadStudentData() {
         msgLabel.setText("");
         constraints.gridx = 1;
-
         DefaultComboBoxModel<String> studentComboBoxModelModel = new DefaultComboBoxModel<>();
         String courseId = String.valueOf(courseListDropdown.getSelectedItem()).split(" - ")[0];
         List<String> studentIds = DB.fetchCourseStudentsById(courseId);
@@ -149,17 +158,61 @@ public class EditGrades extends JPanel {
                 String student = DB.fetchStudentDetailsById(studentId);
                 String[] studentStringArr = student.split(":");
                 studentComboBoxModelModel.addElement(studentStringArr[0] + " - " + studentStringArr[1]);
+
             }
+
             studentListDropdown.setVisible(true);
             studentListDropdown.setModel(studentComboBoxModelModel);
+            String cId = (courseListDropdown.getSelectedItem().toString().split("-")[0].trim());
+            String sId = (studentListDropdown.getSelectedItem().toString().split("-")[0].trim());
+            gradeTxtField.setText(DB.fetchGradeOfStudent(cId,sId));
         }else{
             studentListDropdown.setVisible(false);
+            gradeTxtField.setText("");
             msgLabel.setText("Course has no enrolled students");
             msgLabel.setForeground(Color.red);
         }
-
     }
+
+    public void loadStudentGrade()
+    {
+        String cId = (courseListDropdown.getSelectedItem().toString().split("-")[0].trim());
+        String sId = (studentListDropdown.getSelectedItem().toString().split("-")[0].trim());
+        gradeTxtField.setText(DB.fetchGradeOfStudent(cId,sId));
+    }
+
     private void editStudentGrade() {
+        if(!courseListDropdown.getSelectedItem().equals(null) && courseListDropdown.isVisible())
+        {
+            if(!studentListDropdown.getSelectedItem().equals(null) && studentListDropdown.isVisible())
+            {
+                if(isContainDigit(gradeTxtField.getText()) && (Integer.parseInt(gradeTxtField.getText()) > 0 && Integer.parseInt(gradeTxtField.getText()) <= 100))
+                {
+                    String courseId = (courseListDropdown.getSelectedItem().toString().split("-")[0].trim());
+                    String studentId = (studentListDropdown.getSelectedItem().toString().split("-")[0].trim());
+
+                    DB.editStudentGrade(courseId,studentId,gradeTxtField.getText());
+
+                    msgLabel.setText("Edit successfully");
+                    msgLabel.setForeground(Color.green);
+                }
+                else
+                {
+                    msgLabel.setText("Grade must be between 1 to 100 and only numbers");
+                    msgLabel.setForeground(Color.red);
+                }
+            }
+            else
+            {
+                msgLabel.setText("please select the student!");
+                msgLabel.setForeground(Color.red);
+            }
+        }
+        else
+        {
+            msgLabel.setText("Course need to be selected!");
+            msgLabel.setForeground(Color.red);
+        }
     }
 
 }

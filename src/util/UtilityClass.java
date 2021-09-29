@@ -129,6 +129,13 @@ public class UtilityClass {
         System.out.println(msg);
     }
 
+    public static boolean isContainDigit(String str)
+    {
+        if(str.matches("[0-9]+") && str.length() > 0) {
+            return true;
+        }
+        return false;
+    }
 }
 
 

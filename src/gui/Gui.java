@@ -103,8 +103,8 @@ public class Gui implements ActionListener {
         viewStudent.addActionListener(this);
         frame.add(viewStudent);
 
-        editGrade = new JButton("Edit Student Grade");
-        editGrade.setBounds(x + (buttonWidth * 2) + 20, y, 150, buttonHeight);
+        editGrade = new JButton("Edit Grade");
+        editGrade.setBounds(x + (buttonWidth * 2) + 20, y, 120, buttonHeight);
         editGrade.setFont(new Font("Serif", Font.BOLD, 14));
         editGrade.addActionListener(this);
         frame.add(editGrade);

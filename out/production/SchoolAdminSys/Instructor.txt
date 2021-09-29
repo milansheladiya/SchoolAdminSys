@@ -1,10 +1,12 @@
 File Format
 -------------------------------------
 
-Student@studentID:FullName:CourseName1;CourseName2;attandence:90%;grade:A++......}
+Student@studentID:FullName:CourseName1;CourseName2
 
 Teacher@teacherID:FullName:CourseName1;CourseName2;......
 
 Course@courseId:courseName:startDate:endDate:PreRequisite
 
-StudentCourse:courseID:studentId
+StudentCourse:courseID:studentId:attendance=100:grade=0
+
+TeacherCourse:courseID:teacherID;

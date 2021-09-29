@@ -117,6 +117,25 @@ public class ViewCoursePanel extends JPanel implements ActionListener {
             }
             i++;
         }
+
+        String courseId = Variable[0];
+
+        String AvgAttendance_Grade = "\nAverage Grade :- " + DB.getAvgGrade(courseId) ;
+        String AvgAttendance_Avg = "\nAverage Attendance : "+DB.getAvgAttendance(courseId);
+
+        courseDetails.append(AvgAttendance_Grade);
+        courseDetails.append(AvgAttendance_Avg);
+
+        String listOfFailStudent = DB.getFailingStudentList(courseId);
+        if(!listOfFailStudent.equals(""))
+        {
+            courseDetails.append("\n-------------List of Failing Student---------------\n" + listOfFailStudent);
+        }
+        else
+        {
+            courseDetails.append("\n-------------List of Failing Student---------------\n");
+        }
+
         CourseDataViewArea.setText(courseDetails.toString());
     }
 }

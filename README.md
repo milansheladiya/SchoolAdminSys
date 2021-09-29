@@ -1,5 +1,5 @@
 # School Administrator System
-
+Explaination Video : https://drive.google.com/file/d/121rbR4z3HAtRypEJjZWITFdpoeSaslDU/view?usp=sharing
 
 # About Project
 

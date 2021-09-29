@@ -1,7 +1,7 @@
 Student@20210929094848:Dishant Desai:None
 Student@20210929095027:Milan Sheldiya:None
 Student@20210929095037:Namra Patel:None
-Course@20210929095156:Mobile App Programming:08-10-2021:18-08-2022:None
+Course@20210929095156:Mobile App Programming:08-10-2021:18-12-2021:None
 Course@20210929095620:Web Design:12-10-2021:12-12-2021:None
 Course@20210929095732:Cyber Security:12-12-2021:30-03-2022:Maths
 Course@20210929100417:Machine Learning:08-10-2021:29-4-2022:Maths
@@ -20,10 +20,35 @@ StudentCourse:20210929095732:20210929095027:attendance=100:grade=0
 
 StudentCourse:20210929095732:20210929095037:attendance=100:grade=0
 
-StudentCourse:20210929095156:20210929094848:attendance=100:grade=0
+StudentCourse:20210929095156:20210929094848:attendance=100:grade=85
 
-StudentCourse:20210929095156:20210929095027:attendance=100:grade=0
+StudentCourse:20210929095156:20210929095027:attendance=100:grade=95
 
 StudentCourse:20210929095156:20210929095037:attendance=100:grade=0
 
-StudentCourse:20210929095620:20210929094848:attendance=100:grade=0
+StudentCourse:20210929095620:20210929094848:attendance=100:grade=20
+Student@20210929161210:John Doe:None
+Student@20210929161311:Test jon:None
+Student@20210929164953:John Doe:None
+Student@20210929165907:John Doe:None
+Student@20210929171056:John Doe:Mobile App Programming
+Student@20210929171459:John Doe:Mobile App Programming
+Teacher@20210929171749:Teacher 1:None
+Student@20210929172726:Student 1:Mobile App Programming
+Teacher@20210929173007:Teacher 2:None
+Course@20210929174107:Course 1:12-10-2021:12-11-2021:Maths;English
+Course@20210929174435:Course 3:12-05-2022:12-06-2022:Maths;English;Science
+
+TeacherCourse:20210929095620:20210929102020
+
+StudentCourse:20210929095620:20210929095027:attendance=100:grade=0
+
+StudentCourse:20210929095620:20210929095037:attendance=100:grade=0
+
+StudentCourse:20210929095156:20210929161311:attendance=100:grade=0
+
+StudentCourse:20210929095156:20210929164953:attendance=100:grade=0
+
+
+
+StudentCourse:20210929095156:20210929161210:attendance=100:grade=0

@@ -89,7 +89,7 @@ public class AddStudentPanel extends JPanel implements ActionListener {
         subjecttListDropdown.setModel(listModel);
         subjecttListDropdown.setPreferredSize(subjecttListDropdown.getPreferredSize());
         subjecttListDropdown.setFixedCellHeight(15);
-        subjecttListDropdown.setFixedCellWidth(100);
+        subjecttListDropdown.setFixedCellWidth(200);
         subjecttListDropdown.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         subjecttListDropdown.setVisibleRowCount(4);
         add(new JScrollPane(subjecttListDropdown), constraints);

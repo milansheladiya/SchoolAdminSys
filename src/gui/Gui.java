@@ -267,10 +267,11 @@ public class Gui implements ActionListener {
             hidePanel();
             editGradesPnl.msgLabel.setText("");
             editGrade.remove(editGradesPnl.courseListDropdown);
-            EditGrades.courseList = DB.listOfCourseIds();
+            EditGrades.courseList = DB.listOfCurrentCourse();
             DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>();
-            for (String s : EditGrades.courseList) {
-                comboBoxModel.addElement(s);
+            for (String course : EditGrades.courseList) {
+                String[] courseStringArr = course.split(":");
+                comboBoxModel.addElement(courseStringArr[0] + " - " + courseStringArr[1]);
             }
             editGradesPnl.courseListDropdown.setModel(comboBoxModel);
             editGradesPnl.add(editGradesPnl.courseListDropdown);

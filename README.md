@@ -53,7 +53,7 @@ Explaination Video : https://drive.google.com/file/d/121rbR4z3HAtRypEJjZWITFdpoe
 
       **Dishant Desai(2094440)**
         
-        Base Plane
+        Base Plan
             Discuss and create base plan for project based on given definition
 
         View Teacher
@@ -95,7 +95,7 @@ Explaination Video : https://drive.google.com/file/d/121rbR4z3HAtRypEJjZWITFdpoe
 
      **Namra Patel (2093971)**
 
-        Base Plane
+        Base Plan
             Discuss and create base plan for project based on given definition
 
         GUI
@@ -141,7 +141,7 @@ Explaination Video : https://drive.google.com/file/d/121rbR4z3HAtRypEJjZWITFdpoe
 
      **Milan Sheladiya(2092040)**
 
-        Base Plane
+        Base Plan
             Discuss and create base plan for project based on given definition
 
         GUI

@@ -120,6 +120,7 @@ public class AddTeacherPanel extends JPanel implements ActionListener {
                 DB.addTeacher(teacherID, teacherFullName, "None");
                 msgLable.setText("Teacher Added Successfully.");
                 msgLable.setForeground(Color.green);
+                teacherNameTxtField.setText("");
             }
 
 

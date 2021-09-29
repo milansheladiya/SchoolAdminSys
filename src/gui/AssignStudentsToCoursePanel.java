@@ -145,7 +145,7 @@ public class AssignStudentsToCoursePanel extends JPanel implements ActionListene
                                 courseListDropdown.setSelectedIndex(0);
                                 studentListDropdown.clearSelection();
                             } else {
-                                msgLable.setText("Students are only allowed to take 3 courses at once." + studentName + "is already enrolled in 3 courses");
+                                msgLable.setText("Students are only allowed to take 3 courses at once." + studentName + " is already enrolled in 3 courses");
                                 msgLable.setForeground(Color.red);
                             }
                         }else{

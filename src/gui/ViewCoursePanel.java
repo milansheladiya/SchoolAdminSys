@@ -15,13 +15,12 @@ public class ViewCoursePanel extends JPanel implements ActionListener {
     int screenWidth, screenHeight, buttonWidth;
     public JComboBox<String> courseListDropDown;
     DataController DB;
-    // String[] subjectList = { "Maths", "Java", "Science", "English" };
-    static List<String> subjectList;
+    static List<String> courseList;
     public TextArea CourseDataViewArea;
 
     public ViewCoursePanel() {
         DB = new DataController();
-        subjectList = DB.listOfCourseIds();
+        courseList = DB.listOfCourse();
         setLayout(new GridBagLayout());
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         screenWidth = screenSize.width;
@@ -54,10 +53,10 @@ public class ViewCoursePanel extends JPanel implements ActionListener {
         constraints.gridx = 1;
         courseListDropDown = new JComboBox<>();
         DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>();
-        for (String s : subjectList) {
-            comboBoxModel.addElement(s);
+        for (String course : courseList) {
+            String[] courseStringArr = course.split(":");
+            comboBoxModel.addElement(courseStringArr[0] + " - " + courseStringArr[1]);
         }
-        courseListDropDown.setPrototypeDisplayValue("Select teacher");
         courseListDropDown.setModel(comboBoxModel);
         add(courseListDropDown, constraints);
 
@@ -99,26 +98,27 @@ public class ViewCoursePanel extends JPanel implements ActionListener {
      *  return the course details from file and we display it to textarea. <br>
      */
     private void viewCourse() {
-        String response = DB.fetchCourseById(String.valueOf(courseListDropDown.getSelectedItem()));
+        String courseId = String.valueOf(courseListDropDown.getSelectedItem()).split(" - ")[0];
+
+        String response = DB.fetchCourseById(courseId);
         String[] Variable = response.split(":");
         int i = 0;
         StringBuilder courseDetails = new StringBuilder();
         for (String value : Variable) {
             if (i == 0) {
-                courseDetails.append("Course Id = " + value + "\n");
+                courseDetails.append("Course Id = ").append(value).append("\n");
             } else if (i == 1) {
-                courseDetails.append("Course Name = " + value + "\n");
+                courseDetails.append("Course Name = ").append(value).append("\n");
             } else if (i == 2) {
-                courseDetails.append("Course Start Date = " + value + "\n");
+                courseDetails.append("Course Start Date = ").append(value).append("\n");
             } else if (i == 3) {
-                courseDetails.append("Course End Date = " + value + "\n");
+                courseDetails.append("Course End Date = ").append(value).append("\n");
             } else if (i == 4) {
-                courseDetails.append("PreRequisite = " + value + "\n");
+                courseDetails.append("PreRequisite = ").append(value).append("\n");
             }
             i++;
         }
 
-        String courseId = Variable[0];
 
         String AvgAttendance_Grade = "\nAverage Grade :- " + DB.getAvgGrade(courseId) ;
         String AvgAttendance_Avg = "\nAverage Attendance : "+DB.getAvgAttendance(courseId);
@@ -129,7 +129,7 @@ public class ViewCoursePanel extends JPanel implements ActionListener {
         String listOfFailStudent = DB.getFailingStudentList(courseId);
         if(!listOfFailStudent.equals(""))
         {
-            courseDetails.append("\n-------------List of Failing Student---------------\n" + listOfFailStudent);
+            courseDetails.append("\n-------------List of Failing Student---------------\n").append(listOfFailStudent);
         }
         else
         {

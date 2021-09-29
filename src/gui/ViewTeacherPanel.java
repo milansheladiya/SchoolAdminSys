@@ -14,15 +14,14 @@ import java.util.List;
 public class ViewTeacherPanel extends JPanel implements ActionListener {
     DataController DB;
     int screenWidth, screenHeight, buttonWidth;
-    public JComboBox<String> teacherIdDropdown;
+    public JComboBox<String> teacherListDropdown;
     public JButton viewTeacherButton;
-    // String[] teacherIdList = { "1", "2", "3", "4" };
-    static List<String> teacherIdList;
+    static List<String> teacherList;
     public TextArea TeacherDataViewArea;
 
     public ViewTeacherPanel() {
         DB = new DataController();
-        teacherIdList = DB.listOfTeacherIds();
+        teacherList = DB.listOfTeachers();
         setLayout(new GridBagLayout());
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         screenWidth = screenSize.width;
@@ -47,21 +46,21 @@ public class ViewTeacherPanel extends JPanel implements ActionListener {
 
         constraints.gridx = 0;
         constraints.gridy = 0;
-        JLabel teacherIdLabel = new JLabel("Teacher ID");
+        JLabel teacherIdLabel = new JLabel("Select Teacher");
         teacherIdLabel.setFont(new Font("Serif", Font.PLAIN, 14));
         teacherIdLabel.setSize(300, 30);
         teacherIdLabel.setLocation(300, 30);
         add(teacherIdLabel, constraints);
 
         constraints.gridx = 1;
-        teacherIdDropdown = new JComboBox<>();
+        teacherListDropdown = new JComboBox<>();
         DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>();
-        for (String s : teacherIdList) {
-            comboBoxModel.addElement(s);
+        for (String teacher : teacherList) {
+            String[] teacherStringArr = teacher.split(":");
+            comboBoxModel.addElement(teacherStringArr[0] + " - " + teacherStringArr[1]);
         }
-        teacherIdDropdown.setPrototypeDisplayValue("Select teacher");
-        teacherIdDropdown.setModel(comboBoxModel);
-        add(teacherIdDropdown, constraints);
+        teacherListDropdown.setModel(comboBoxModel);
+        add(teacherListDropdown, constraints);
 
         constraints.gridx = 0;
         constraints.gridy = 1;
@@ -102,8 +101,8 @@ public class ViewTeacherPanel extends JPanel implements ActionListener {
      *  return the teacher details from file and we display it to textarea. <br>
      */
     private void viewTeacher() {
-        String teacherDetails = DB.fetchTeacherById(String.valueOf(teacherIdDropdown.getSelectedItem()));
-        System.out.println("View Teacher" + teacherDetails);
+        String teacherId = String.valueOf(teacherListDropdown.getSelectedItem()).split(" - ")[0];
+        String teacherDetails = DB.fetchTeacherById(teacherId);
         TeacherDataViewArea.setText(teacherDetails);
 
     }

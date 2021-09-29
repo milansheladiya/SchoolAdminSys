@@ -15,12 +15,13 @@ import java.util.List;
 public class AssignTeacherToCoursePanel extends JPanel implements ActionListener {
     int screenWidth, screenHeight, buttonWidth;
     public JComboBox<String> courseListDropdown, teacherListDropdown;
-    public JLabel msgLable;
+    public JLabel msgLable = new JLabel("");;
     JButton assignTeacherButton;
     DataController DB;
     List<String> teacherList, courseList;
 
     public AssignTeacherToCoursePanel() {
+        msgLable.setText("");
         DB = new DataController();
         teacherList = DB.listOfTeachers();
         courseList = DB.listOfCourse();
@@ -74,8 +75,8 @@ public class AssignTeacherToCoursePanel extends JPanel implements ActionListener
         constraints.gridx = 1;
         teacherListDropdown = new JComboBox<>();
         DefaultComboBoxModel<String> teacherComboBoxModelModel = new DefaultComboBoxModel<>();
-        for (String course : teacherList) {
-            String[] teacherStringArr = course.split(":");
+        for (String teacher : teacherList) {
+            String[] teacherStringArr = teacher.split(":");
             teacherComboBoxModelModel.addElement(teacherStringArr[0] + " - " + teacherStringArr[1]);
         }
         teacherListDropdown.setModel(teacherComboBoxModelModel);
@@ -93,7 +94,6 @@ public class AssignTeacherToCoursePanel extends JPanel implements ActionListener
         constraints.gridy = 3;
         constraints.gridwidth = 2;
         constraints.anchor = GridBagConstraints.CENTER;
-        msgLable = new JLabel("");
         msgLable.setFont(new Font("Serif", Font.PLAIN, 14));
         msgLable.setSize(500, 100);
         add(msgLable, constraints);

@@ -107,7 +107,6 @@ public class ViewStudentPanel extends JPanel implements ActionListener {
     private void viewStudent()
     {
         String studentDetails = DB.fetchStudentById(String.valueOf(studentIdDropdown.getSelectedItem()));
-        System.out.println("View Student" + studentDetails);
         studentDataViewArea.setText(studentDetails);
 
     }

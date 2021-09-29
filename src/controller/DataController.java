@@ -9,8 +9,8 @@ import static util.UtilityClass.*;
 
 /**
  * This class is for business logic of School Admin Application. <br>
- *     In this class we perform all the operations which are directly related to file. <br>
- *     All the operations of fetching and removing from file or data formation for GUI class to use are contains in this class.
+ * In this class we perform all the operations which are directly related to file. <br>
+ * All the operations of fetching and removing from file or data formation for GUI class to use are contains in this class.
  */
 public class DataController {
 
@@ -27,8 +27,9 @@ public class DataController {
      * It will take the record string StudentCourse:courseId:studentId in this format and find in file and remove that
      * line from file.
      * <b>Logic:</b> <br>
-     *     We loop through each line of file and add the each line to one by one to new temporary variable except the removeData we
-     *     get from method params. After completion of loop we replace file with temporary variable data.
+     * We loop through each line of file and add the each line to one by one to new temporary variable except the removeData we
+     * get from method params. After completion of loop we replace file with temporary variable data.
+     *
      * @param removeData This will be the string record which Admin wants to delte from file.
      */
     public void removeFromFile(String removeData) {
@@ -80,8 +81,9 @@ public class DataController {
     /**
      * This is used to check if student is already exist in file. <br>
      * <b>Logic:</b> <br>
-     *   We go through each line of file and when we find keyword Student we compare that line
-     *   studentId with params studentId if they are same we return true.
+     * We go through each line of file and when we find keyword Student we compare that line
+     * studentId with params studentId if they are same we return true.
+     *
      * @param studentID It will be studentId  which is  uniquely generated at creation time
      * @return method will return true if already exist in file with same id otherwise false
      */
@@ -123,8 +125,9 @@ public class DataController {
     /**
      * This is used to check if teacher is already exist in file. <br>
      * <b>Logic:</b> <br>
-     *        We go through each line of file and when we find keyword Teacher we compare that line <br>
-     *         teacherId with params teacherId if they are same we return true. <br>
+     * We go through each line of file and when we find keyword Teacher we compare that line <br>
+     * teacherId with params teacherId if they are same we return true. <br>
+     *
      * @param teacherId It will be teacherId which is uniquely generated at creation time
      * @return method will return true if already exist in file with same id otherwise false
      */
@@ -163,15 +166,16 @@ public class DataController {
 
     /**
      * This method will use to check if student is already enrolled in given course.<br>
-     *     <b>Logic:</b> <br>
-     *     We go through each line of file and when we find keyword StudentCourse we compare that line <br>
-     *     courseId and studentId with param's courseId and studentId if they are same we return true. <br>
-     * @param courseId It is the id of course for which we have to check
+     * <b>Logic:</b> <br>
+     * We go through each line of file and when we find keyword StudentCourse we compare that line <br>
+     * courseId and studentId with param's courseId and studentId if they are same we return true. <br>
+     *
+     * @param courseId  It is the id of course for which we have to check
      * @param studentId It is the id of student for whom we have to check
      * @return method will return true if already enrolled in given course
      */
-    public boolean checkStudentAlreadyEnrolledInCourse(String courseId, String studentId){
-        try{
+    public boolean checkStudentAlreadyEnrolledInCourse(String courseId, String studentId) {
+        try {
             FileReader reader = new FileReader(file);
             BufferedReader bufferedReader = new BufferedReader(reader);
             String line;
@@ -186,7 +190,7 @@ public class DataController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             try {
                 reader.close();
             } catch (IOException e) {
@@ -199,15 +203,16 @@ public class DataController {
 
     /**
      * This method will use to check if teacher is already assigned in given course. <br>
-     *     <b>Logic:</b> <br>
-     *     We go through each line of file and when we find keyword TeacherCourse we compare that line <br>
-     *     teacherId and courseId with param's teacherId and courseId if they are same we return true. <br>
-     * @param courseId It is the id of course for which we have to check
+     * <b>Logic:</b> <br>
+     * We go through each line of file and when we find keyword TeacherCourse we compare that line <br>
+     * teacherId and courseId with param's teacherId and courseId if they are same we return true. <br>
+     *
+     * @param courseId  It is the id of course for which we have to check
      * @param teacherId It is the id of teacher for whom we have to check
      * @return method will return true if already assigned in given course otherwise false
      */
-    public boolean checkTeacherAlreadyAssignedInCourse(String courseId, String teacherId){
-        try{
+    public boolean checkTeacherAlreadyAssignedInCourse(String courseId, String teacherId) {
+        try {
             FileReader reader = new FileReader(file);
             BufferedReader bufferedReader = new BufferedReader(reader);
             String line;
@@ -222,7 +227,7 @@ public class DataController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             try {
                 reader.close();
             } catch (IOException e) {
@@ -235,10 +240,11 @@ public class DataController {
 
     /**
      * This is used to add the new student record at the end of the file <br>
-     *     Record add to file will be in this format: Student@studentID:FullName:CourseName1;CourseName2;attandence:90%;grade:90 <br>
-     * @param studentID Randomly generated id at the time of calling the method
+     * Record add to file will be in this format: Student@studentID:FullName:CourseName1;CourseName2;attandence:90%;grade:90 <br>
+     *
+     * @param studentID       Randomly generated id at the time of calling the method
      * @param studentFullName Student full name which is inserted in text field
-     * @param listOfCourse Selected previous courses
+     * @param listOfCourse    Selected previous courses
      */
     public void addStudent(String studentID, String studentFullName, StringBuilder listOfCourse) {
         try {
@@ -254,12 +260,14 @@ public class DataController {
         }
         printConsole("Add student : Confirm...");
     }
+
     /**
      * This is used to add the new teacher record at the end of the file <br>
-     *     Record add to file will be in this format: Teacher@teacherID:FullName:CourseName1;CourseName2;
-     * @param teacherID Randomly generated id at the time of calling the method
+     * Record add to file will be in this format: Teacher@teacherID:FullName:CourseName1;CourseName2;
+     *
+     * @param teacherID       Randomly generated id at the time of calling the method
      * @param teacherFullName Teacher full name which is inserted in text field
-     * @param listOfCourse None
+     * @param listOfCourse    None
      */
     public void addTeacher(String teacherID, String teacherFullName, String listOfCourse) {
         try {
@@ -278,11 +286,12 @@ public class DataController {
 
     /**
      * This is used to add the new course record at the end of the file <br>
-     *     Record add to file will be in this format: Course@courseId:courseName:startDate:endDate:PreRequisite
-     * @param courseId Randomly generated id at the time of calling the method
-     * @param courseName Course  name which is inserted in text field
-     * @param startDate  Course start date in DD-MM-YYYY format
-     * @param endDate    Course completion date in DD-MM-YYYY format
+     * Record add to file will be in this format: Course@courseId:courseName:startDate:endDate:PreRequisite
+     *
+     * @param courseId     Randomly generated id at the time of calling the method
+     * @param courseName   Course  name which is inserted in text field
+     * @param startDate    Course start date in DD-MM-YYYY format
+     * @param endDate      Course completion date in DD-MM-YYYY format
      * @param preRequisite Prerequisite courses require to enroll in this course
      */
     public void addCourse(String courseId, String courseName, String startDate, String endDate, String preRequisite) {
@@ -303,16 +312,17 @@ public class DataController {
 
     /**
      * This is used to assign the course to student and create record for that the end of the file <br>
-     *     Record add to file will be in this format: StudentCourse:courseID:studentId
+     * Record add to file will be in this format: StudentCourse:courseID:studentId
+     *
      * @param courseId  id of course to which student needs to be add
-     * @param studentId  id of student who will be added to course
+     * @param studentId id of student who will be added to course
      */
     public void assignCourseToStudent(String courseId, String studentId) {
         try {
             FileWriter writer = new FileWriter(file, true);
             BufferedWriter bufferedWriter = new BufferedWriter(writer);
 
-            bufferedWriter.write("\nStudentCourse" + ":" + courseId + ":" + studentId+":attendance=100:grade=0");
+            bufferedWriter.write("\nStudentCourse" + ":" + courseId + ":" + studentId + ":attendance=100:grade=0");
             bufferedWriter.newLine();
 
             bufferedWriter.close();
@@ -323,8 +333,9 @@ public class DataController {
 
     /**
      * This is used to assign the course to teacher and create record for that the end of the file <br>
-     *     Record add to file will be in this format: TeacherCourse:courseID:teacherId
-     * @param courseId id of course to which teacher needs to be add
+     * Record add to file will be in this format: TeacherCourse:courseID:teacherId
+     *
+     * @param courseId  id of course to which teacher needs to be add
      * @param teacherId id of teacher who will be added to course
      */
     public void assignCourseToTeacher(String courseId, String teacherId) {
@@ -344,8 +355,9 @@ public class DataController {
     /**
      * This is used to get the total number of enrolled students in the course.
      * <b>Logic:</b> <br>
-     *      We go through each line of file and when we find keyword StudentCourse we compare that line courseId with param's courseId
-     *      after that we check if course end date is not in past then we increase the count.
+     * We go through each line of file and when we find keyword StudentCourse we compare that line courseId with param's courseId
+     * after that we check if course end date is not in past then we increase the count.
+     *
      * @param courseId for which we have to find enrolled students
      * @return will return the count of enrolled students
      */
@@ -383,10 +395,11 @@ public class DataController {
 
     /**
      * This is used to get the total number of assigned teachers in the course.
-     *     <b>Logic:</b> <br>
-     *        We go through each line of file and when we find keyword TeacherCourse we compare that line courseId with param's courseId
-     *          after that we check if course end date is not in past then we increase the count.
-     * @param courseId  for which we have to find assigned teachers
+     * <b>Logic:</b> <br>
+     * We go through each line of file and when we find keyword TeacherCourse we compare that line courseId with param's courseId
+     * after that we check if course end date is not in past then we increase the count.
+     *
+     * @param courseId for which we have to find assigned teachers
      * @return will return the count of assigned teachers
      */
     public int getCourseCurrentTeacherCapacity(String courseId) {
@@ -423,9 +436,10 @@ public class DataController {
 
     /**
      * This is used to get the total number of current course teacher is teaching.
-     *     <b>Logic:</b> <br>
-     *        We go through each line of file and when we find keyword TeacherCourse we compare that line teacherId with param's teacherId
-     *          after that we check if course end date is not in past then we increase the count.
+     * <b>Logic:</b> <br>
+     * We go through each line of file and when we find keyword TeacherCourse we compare that line teacherId with param's teacherId
+     * after that we check if course end date is not in past then we increase the count.
+     *
      * @param teacherId for which we have to find total number of current course
      * @return will return the count of total course teacher is teaching
      */
@@ -437,7 +451,6 @@ public class DataController {
             String line;
             while ((line = bufferedReader1.readLine()) != null) {
                 String[] teacherCourse = line.split(":");
-                System.out.println("line" + line);
                 if (teacherCourse[0].equals("TeacherCourse") && teacherId.equals(teacherCourse[2])) {
                     String course = fetchCourseById(teacherCourse[1]);
                     if (!isPastCourse(course)) {
@@ -463,9 +476,10 @@ public class DataController {
 
     /**
      * This is used to get the total number of current course student is enrolled.
-     *     <b>Logic:</b> <br>
-     *        We go through each line of file and when we find keyword StudentCourse we compare that line studentId with param's studentId
-     *          after that we check if course end date is not in past then we increase the count.
+     * <b>Logic:</b> <br>
+     * We go through each line of file and when we find keyword StudentCourse we compare that line studentId with param's studentId
+     * after that we check if course end date is not in past then we increase the count.
+     *
      * @param studentId for which we have to find total number of current course
      * @return will return the count of total enrolled course
      */
@@ -502,6 +516,7 @@ public class DataController {
 
     /**
      * This is used to get the list of courses which end date is not in past.
+     *
      * @return return the list of String of current course
      */
     public List<String> listOfCurrentCourse() {
@@ -544,6 +559,7 @@ public class DataController {
 
     /**
      * This is used to get the list of all courses irrespective of end date.
+     *
      * @return return the list of String of current course
      */
     public List<String> listOfCourse() {
@@ -578,6 +594,7 @@ public class DataController {
 
     /**
      * This is used to get the list of all student ids record from the file.
+     *
      * @return return the list of String of student ids
      */
     public List<String> listOfStudentIds() {
@@ -612,6 +629,7 @@ public class DataController {
 
     /**
      * This is used to get the list of all teacher ids record from the file.
+     *
      * @return return the list of String of teacher ids
      */
     public List<String> listOfTeacherIds() {
@@ -646,6 +664,7 @@ public class DataController {
 
     /**
      * This is used to get the list of all course ids record from the file.
+     *
      * @return return the list of String of course ids
      */
     public List<String> listOfCourseIds() {
@@ -680,6 +699,7 @@ public class DataController {
 
     /**
      * This is used to get the list of all students record from the file.
+     *
      * @return return the list of String of students
      */
     public List<String> listOfStudents() {
@@ -714,7 +734,8 @@ public class DataController {
 
     /**
      * This is used to get the list of all records for assigned teacher to all courses from the file.<br>
-     *     we use TeacherCourse:courseId:teacherId for assigned teacher in file.
+     * we use TeacherCourse:courseId:teacherId for assigned teacher in file.
+     *
      * @return return the list of String of assigned teachers to all course
      */
     public List<String> listOfTeacherCourse() {
@@ -754,7 +775,8 @@ public class DataController {
 
     /**
      * This is used to get the list of all records for enrolled students to all courses from the file.<br>
-     *     we use StudentCourse:courseId:studentId for assigned students in file.
+     * we use StudentCourse:courseId:studentId for assigned students in file.
+     *
      * @return return the list of String of enrolled students to all course
      */
     public List<String> listOfStudentCourse() {
@@ -771,7 +793,7 @@ public class DataController {
                     String[] courseList = course.split(":");
 
                     String student = fetchStudentDetailsById(courseStudent[2]);
-                    String[] studentStringArr =  student.split(":");
+                    String[] studentStringArr = student.split(":");
                     // String[] teacherList = teacher.split(":");
 
                     list.add(courseList[1] + " : " + courseStudent[1] + " : " + studentStringArr[1] + " : " + courseStudent[2]);
@@ -795,6 +817,7 @@ public class DataController {
 
     /**
      * This is used to get the list of all teachers record from the file.
+     *
      * @return return the list of String of teachers
      */
     public List<String> listOfTeachers() {
@@ -829,6 +852,7 @@ public class DataController {
 
     /**
      * This is used to get the details of particular student in particular string from the file.
+     *
      * @param studentId for whom data needs to be get
      * @return will return string of student details
      */
@@ -860,15 +884,11 @@ public class DataController {
                     }
                 }
                 String[] Variable = line.split(":");
-                if(Variable[0].equals("StudentCourse"))
-                {
-                    if(Variable[2].equals(studentId))
-                    {
-                        if((Variable[4].split("=")[1]).equals("0"))
-                        {
+                if (Variable[0].equals("StudentCourse")) {
+                    if (Variable[2].equals(studentId)) {
+                        if ((Variable[4].split("=")[1]).equals("0")) {
                             currentCourse = currentCourse + "Current Course = " + getCourseName(Variable[1]) + " \n[" + Variable[3] + " , grade = (On going session)]\n";
-                        }
-                        else {
+                        } else {
                             currentCourse = currentCourse + "Current Course = " + getCourseName(Variable[1]) + " \n[" + Variable[3] + " , " + Variable[4] + "]\n";
                         }
                     }
@@ -883,16 +903,14 @@ public class DataController {
             }
             printConsole(ex.getMessage());
         }
-        if(currentCourse.equals(""))
-        {
+        if (currentCourse.equals("")) {
             currentCourse = "[ Courses not assigned for current session! ]";
         }
         studentDetails.append(currentCourse);
         return studentDetails.toString();
     }
 
-    public String getCourseName(String CourseID)
-    {
+    public String getCourseName(String courseID) {
         String cName = "";
         try {
             FileReader reader = new FileReader(file);
@@ -902,7 +920,7 @@ public class DataController {
                 String[] course = line.split("@");
                 if (course[0].equals("Course")) {
                     String[] Variable = course[1].split(":");
-                    if (Variable[0].equals(CourseID)) {
+                    if (Variable[0].equals(courseID)) {
                         cName = Variable[1];
                     }
                 }
@@ -915,6 +933,7 @@ public class DataController {
 
     /**
      * This is used to get the details of particular teacher from the file.
+     *
      * @param teacherId for whom data needs to be get
      * @return will return string of teacher details
      */
@@ -946,10 +965,8 @@ public class DataController {
                 }
 
                 String[] tCourse = line.split(":");
-                if(tCourse[0].equals("TeacherCourse"))
-                {
-                    if(tCourse[2].equals(teacherId))
-                    {
+                if (tCourse[0].equals("TeacherCourse")) {
+                    if (tCourse[2].equals(teacherId)) {
                         teachCourse = teachCourse + getCourseDetails(tCourse[1]);
                     }
                 }
@@ -964,16 +981,19 @@ public class DataController {
             printConsole(ex.getMessage());
         }
 
-        if(teachCourse.equals(""))
-        {
+        if (teachCourse.equals("")) {
             teachCourse = " [ Courses not assigned to this Teacher! ]";
         }
         teacherDetails.append(teachCourse);
         return teacherDetails.toString();
     }
 
-    public String getCourseDetails(String CourseID)
-    {
+    /**
+     * This is used to get the details of particular course from the file.<br>
+     * @param courseID for which data needs to be get
+     * @return will return string of course details
+     */
+    public String getCourseDetails(String courseID) {
         String cName = "";
         try {
             FileReader reader = new FileReader(file);
@@ -983,9 +1003,9 @@ public class DataController {
                 String[] course = line.split("@");
                 if (course[0].equals("Course")) {
                     String[] Variable = course[1].split(":");
-                    if (Variable[0].equals(CourseID)) {
+                    if (Variable[0].equals(courseID)) {
 
-                        cName += "Teacher Subject : "+Variable[1] + " (subID: "+ Variable[0] +" ) [ " + (isPastCourse(course[1]) == true ? "Past Course" : "Current Course") + " ]\n";
+                        cName += "Teacher Subject : " + Variable[1] + " (subID: " + Variable[0] + " ) [ " + (isPastCourse(course[1]) == true ? "Past Course" : "Current Course") + " ]\n";
                     }
                 }
             }
@@ -998,6 +1018,7 @@ public class DataController {
 
     /**
      * This is used to get the name of particular teacher from the file.
+     *
      * @param teacherId for whom data needs to be get
      * @return will return teacher name
      */
@@ -1035,7 +1056,8 @@ public class DataController {
 
     /**
      * This is used to get the details of particular student from the file.<br>
-     *     It will return the whole line of student studentID:FullName:CourseName1;CourseName2;attandence:90%;grade:90 like this.
+     * It will return the whole line of student studentID:FullName:CourseName1;CourseName2;attandence:90%;grade:90 like this.
+     *
      * @param studentId for whom data needs to be get
      * @return will return string of student details
      */
@@ -1067,6 +1089,7 @@ public class DataController {
 
     /**
      * This is used to get the details of particular course from the file.
+     *
      * @param courseId for which data needs to be get
      * @return will return string of course details
      */
@@ -1093,8 +1116,7 @@ public class DataController {
         return courseDetails;
     }
 
-    public String getViewCourseFurther(String CourseID)
-    {
+    public String getViewCourseFurther(String courseID) {
         String sName = "";
         try {
             FileReader reader = new FileReader(file);
@@ -1103,16 +1125,12 @@ public class DataController {
             while ((line = bufferedReader.readLine()) != null) {
                 String[] course = line.split(":");
                 if (course[0].equals("StudentCourse")) {
-                    if (course[1].equals(CourseID)) {
-                        if(Integer.parseInt(course[4].split("=")[1]) < 60)
-                        {
-                            if(course[4].split("=")[1].equals("0"))
-                            {
+                    if (course[1].equals(courseID)) {
+                        if (Integer.parseInt(course[4].split("=")[1]) < 60) {
+                            if (course[4].split("=")[1].equals("0")) {
                                 sName = sName + getStudentNameById(course[2]) + " ,  grade=( grade not assigned )\n";
-                            }
-                            else
-                            {
-                                sName = sName + getStudentNameById(course[2]) + "  ,  " +course[4] + "\n";
+                            } else {
+                                sName = sName + getStudentNameById(course[2]) + "  ,  " + course[4] + "\n";
                             }
 
                         }
@@ -1125,8 +1143,12 @@ public class DataController {
         return sName;
     }
 
-    public String getFailingStudentList(String CourseID)
-    {
+    /**
+     * This is used to get the list of failing student in course
+     * @param courseID for which we have to get failed student list
+     * @return list of failed student will be returned
+     */
+    public String getFailingStudentList(String courseID) {
         String sName = "";
         try {
             FileReader reader = new FileReader(file);
@@ -1135,16 +1157,12 @@ public class DataController {
             while ((line = bufferedReader.readLine()) != null) {
                 String[] course = line.split(":");
                 if (course[0].equals("StudentCourse")) {
-                    if (course[1].equals(CourseID)) {
-                        if(Integer.parseInt(course[4].split("=")[1]) < 60)
-                        {
-                            if(course[4].split("=")[1].equals("0"))
-                            {
+                    if (course[1].equals(courseID)) {
+                        if (Integer.parseInt(course[4].split("=")[1]) < 60) {
+                            if (course[4].split("=")[1].equals("0")) {
                                 sName = sName + getStudentNameById(course[2]) + " ,  grade=( grade not assigned )\n";
-                            }
-                            else
-                            {
-                                sName = sName + getStudentNameById(course[2]) + "  ,  " +course[4] + "\n";
+                            } else {
+                                sName = sName + getStudentNameById(course[2]) + "  ,  " + course[4] + "\n";
                             }
 
                         }
@@ -1158,8 +1176,12 @@ public class DataController {
     }
 
 
-    public String getAvgAttendance(String CourseID)
-    {
+    /**
+     * This is used to get average attendance of particular course
+     * @param courseID for which we have to get average attendance
+     * @return will return average attendance of course
+     */
+    public String getAvgAttendance(String courseID) {
         int avgAttande = 0;
         String str = "";
         int cnt = 0;
@@ -1170,18 +1192,15 @@ public class DataController {
             while ((line = bufferedReader.readLine()) != null) {
                 String[] course = line.split(":");
                 if (course[0].equals("StudentCourse")) {
-                    if (course[1].equals(CourseID)) {
+                    if (course[1].equals(courseID)) {
                         avgAttande = avgAttande + Integer.parseInt(course[3].split("=")[1]);
                         cnt++;
                     }
                 }
             }
-            if(cnt > 0)
-            {
-                str = String.valueOf(avgAttande/cnt);
-            }
-            else
-            {
+            if (cnt > 0) {
+                str = String.valueOf(avgAttande / cnt);
+            } else {
                 str = " [ No student assigned ]";
             }
 
@@ -1190,9 +1209,12 @@ public class DataController {
         }
         return str;
     }
-
-    public String getAvgGrade(String CourseID)
-    {
+    /**
+     * This is used to get average grade of particular course
+     * @param courseID for which we have to get average grade
+     * @return will return average grade of course
+     */
+    public String getAvgGrade(String courseID) {
         int avgGrade = 0;
         String str = "";
         int cnt = 0;
@@ -1203,18 +1225,15 @@ public class DataController {
             while ((line = bufferedReader.readLine()) != null) {
                 String[] course = line.split(":");
                 if (course[0].equals("StudentCourse")) {
-                    if (course[1].equals(CourseID)) {
+                    if (course[1].equals(courseID)) {
                         avgGrade = avgGrade + Integer.parseInt(course[4].split("=")[1]);
                         cnt++;
                     }
                 }
             }
-            if(cnt > 0)
-            {
-                str = String.valueOf(avgGrade/cnt);
-            }
-            else
-            {
+            if (cnt > 0) {
+                str = String.valueOf(avgGrade / cnt);
+            } else {
                 str = " [ No student assigned ]";
             }
 
@@ -1224,9 +1243,13 @@ public class DataController {
         return str;
     }
 
-
-    public String getStudentNameById(String studentID)
-    {
+    /**
+     * This is used to get the name of particular student from the file.
+     *
+     * @param studentID for whom data needs to be get
+     * @return will return student name
+     */
+    public String getStudentNameById(String studentID) {
         String sName = "";
         try {
             FileReader reader = new FileReader(file);
@@ -1251,6 +1274,7 @@ public class DataController {
 
     /**
      * This is used to get the list of all enrolled students for particular course.
+     *
      * @param courseId for which data needs to be get
      * @return return the list of String of enrolled students
      */
@@ -1277,24 +1301,16 @@ public class DataController {
         return list;
     }
 
-    /**
-     * It is used to print the  message to console
-     * @param msg message that needs to be displayed in console
-     */
-    // common message print gateway
-    public static void printConsole(String msg) {
-        System.out.println(msg);
-    }
 
     /**
      * This is used to get the list of all enrolled students for particular course.
-     * @param courseId for which data needs to be get
+     *
+     * @param courseId  for which data needs to be get
      * @param studentId for which data needs to be get
      * @return return the grade of specific students in specific course
      */
-    public String fetchGradeOfStudent(String courseId,String studentId)
-    {
-        String grade="0";
+    public String fetchGradeOfStudent(String courseId, String studentId) {
+        String grade = "0";
         try {
             FileReader reader = new FileReader(file);
             BufferedReader fetchCourseBufferedReader = new BufferedReader(reader);
@@ -1302,7 +1318,7 @@ public class DataController {
             while ((line = fetchCourseBufferedReader.readLine()) != null) {
                 String[] courseStudent = line.split(":");
                 if (courseStudent[0].equals("StudentCourse") && courseId.equals(courseStudent[1]) && studentId.equals(courseStudent[2])) {
-                   grade = courseStudent[4].split("=")[1];
+                    grade = courseStudent[4].split("=")[1];
                     break;
                 }
             }
@@ -1314,6 +1330,16 @@ public class DataController {
     }
 
 
+    /**
+     * This is used to edit student grades based on courseId and studentId.<br>
+     *     <b>Logic:</b><br>
+     *         We store whole file data in one temp variable and during that when we find StudentCourse with courseId and studentId
+     *         we update the grade.Once all file record is added to temp variable with update record as well we replace whole file data
+     *         with temp variable data.
+     * @param courseId course for which student grade needs to be edit
+     * @param studentId student for whom grade needs to be edit
+     * @param grade grade that will be updated
+     */
     public void editStudentGrade(String courseId, String studentId, String grade) {
         ArrayList<String> tempArray = new ArrayList<>();
 
@@ -1324,10 +1350,8 @@ public class DataController {
             while ((line = fetchCourseBufferedReader.readLine()) != null) {
                 String[] courseStudent = line.split(":");
                 if (courseStudent[0].equals("StudentCourse") && courseId.equals(courseStudent[1]) && studentId.equals(courseStudent[2])) {
-                    tempArray.add("StudentCourse:"+courseStudent[1]+":"+courseStudent[2]+":"+courseStudent[3]+":grade="+grade);
-                }
-                else
-                {
+                    tempArray.add("StudentCourse:" + courseStudent[1] + ":" + courseStudent[2] + ":" + courseStudent[3] + ":grade=" + grade);
+                } else {
                     tempArray.add(line);
                 }
             }
@@ -1342,15 +1366,23 @@ public class DataController {
         }
 
 
-            try(PrintWriter pr = new PrintWriter(file)){
-                for(String str : tempArray){
-                    pr.println(str);
-                }
-                pr.close();
-            } catch (Exception e) {
-                e.printStackTrace();
+        try (PrintWriter pr = new PrintWriter(file)) {
+            for (String str : tempArray) {
+                pr.println(str);
             }
+            pr.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-
+    /**
+     * It is used to print the  message to console
+     *
+     * @param msg message that needs to be displayed in console
+     */
+    // common message print gateway
+    public static void printConsole(String msg) {
+        System.out.println(msg);
     }
 }

@@ -180,9 +180,11 @@ public class Gui implements ActionListener {
 
         if (e.getSource() == addStudent) {
             hidePanel();
+            addStudentPnl.msgLable.setText("");
             addStudentPnl.setVisible(true);
         } else if (e.getSource() == viewStudent) {
             hidePanel();
+            viewStudentPnl.studentDataViewArea.setText("");
             viewStudentPnl.remove(viewStudentPnl.studentIdDropdown);
             ViewStudentPanel v = new ViewStudentPanel();
             v.studentIdList = DB.listOfStudentIds();
@@ -195,40 +197,47 @@ public class Gui implements ActionListener {
             viewStudentPnl.setVisible(true);
         } else if (e.getSource() == addTeacher) {
             hidePanel();
+            addTeacherPnl.msgLable.setText("");
             addTeacherPnl.setVisible(true);
         } else if (e.getSource() == viewTeacher) {
             hidePanel();
-            viewTeacherPnl.remove(viewTeacherPnl.teacherIdDropdown);
+            viewTeacherPnl.TeacherDataViewArea.setText("");
+            viewTeacherPnl.remove(viewTeacherPnl.teacherListDropdown);
             ViewTeacherPanel v = new ViewTeacherPanel();
-            v.teacherIdList = DB.listOfTeacherIds();
+            v.teacherList = DB.listOfTeachers();
             DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>();
-            for (String s : v.teacherIdList) {
-                comboBoxModel.addElement(s);
+            for (String teacher : v.teacherList) {
+                String[] teacherStringArr = teacher.split(":");
+                comboBoxModel.addElement(teacherStringArr[0] + " - " + teacherStringArr[1]);
             }
-            viewTeacherPnl.teacherIdDropdown.setModel(comboBoxModel);
-            viewTeacherPnl.add(viewTeacherPnl.teacherIdDropdown);
+            viewTeacherPnl.teacherListDropdown.setModel(comboBoxModel);
+            viewTeacherPnl.add(viewTeacherPnl.teacherListDropdown);
             viewTeacherPnl.setVisible(true);
         } else if (e.getSource() == addCourse) {
             hidePanel();
+            addCoursePnl.msgLable.setText("");
             addCoursePnl.setVisible(true);
         } else if (e.getSource() == viewCourse) {
             hidePanel();
+            viewCoursePnl.CourseDataViewArea.setText("");
             viewCourse.remove(viewCoursePnl.courseListDropDown);
             ViewCoursePanel v = new ViewCoursePanel();
-            v.subjectList = DB.listOfCourseIds();
+            v.courseList = DB.listOfCourse();
             DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>();
-            for (String s : v.subjectList) {
-                comboBoxModel.addElement(s);
+            for (String course : v.courseList) {
+                String[] courseStringArr = course.split(":");
+                comboBoxModel.addElement(courseStringArr[0] + " - " + courseStringArr[1]);
             }
             viewCoursePnl.courseListDropDown.setModel(comboBoxModel);
             viewCoursePnl.add(viewCoursePnl.courseListDropDown);
             viewCoursePnl.setVisible(true);
         } else if (e.getSource() == assignTeacherToCourse) {
             hidePanel();
+            assignTeacherToCoursePnl.msgLable.setText("");
             assignTeacherToCoursePnl.setVisible(true);
         } else if (e.getSource() == assignStudentToCourse) {
             hidePanel();
-
+            assignStudentsToCoursePnl.msgLable.setText("");
             assignStudentsToCoursePnl.setVisible(true);
         } else if (e.getSource() == removerTecherCourse) {
             hidePanel();
@@ -256,6 +265,15 @@ public class Gui implements ActionListener {
             removeStudentsToCoursePnl.setVisible(true);
         }else if(e.getSource() == editGrade){
             hidePanel();
+            editGradesPnl.msgLabel.setText("");
+            editGrade.remove(editGradesPnl.courseListDropdown);
+            EditGrades.courseList = DB.listOfCourseIds();
+            DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>();
+            for (String s : EditGrades.courseList) {
+                comboBoxModel.addElement(s);
+            }
+            editGradesPnl.courseListDropdown.setModel(comboBoxModel);
+            editGradesPnl.add(editGradesPnl.courseListDropdown);
             editGradesPnl.setVisible(true);
         }
     }

@@ -126,6 +126,13 @@ public class EditGrades extends JPanel {
     private void loadStudentDataHandler(ActionEvent actionEvent) {
         loadStudentData();
     }
+
+    /**
+     * This is the implementation of {@link ActionListener#actionPerformed(ActionEvent)}<br>
+     * It will be called when select student value change to load the student grade to selected
+     * student only.
+     * @param actionEvent
+     */
     private void loadStudentGradeDataHandler(ActionEvent actionEvent) {
         loadStudentGrade();
     }
@@ -181,10 +188,17 @@ public class EditGrades extends JPanel {
         gradeTxtField.setText(DB.fetchGradeOfStudent(cId,sId));
     }
 
+    /**
+     *  It will edit the selected student grade from particular course .<br>
+     *  <b>Logic:</b> <br>
+     *  we check that course and student is selected and course has students enrolled in it, otherwise we will show error message.<br>
+     *  we check if entered grade in text field is valid grade or not using {@link util.UtilityClass#isContainDigit(String)} <br>
+     *  Once all the conditions are satisfied we update the record to file using {@link DataController#editStudentGrade(String, String, String)}} <br>
+     */
     private void editStudentGrade() {
-        if(!courseListDropdown.getSelectedItem().equals(null) && courseListDropdown.isVisible())
+        if(courseListDropdown.getSelectedItem() != null && courseListDropdown.isVisible())
         {
-            if(!studentListDropdown.getSelectedItem().equals(null) && studentListDropdown.isVisible())
+            if(studentListDropdown.getSelectedItem() != null && studentListDropdown.isVisible())
             {
                 if(isContainDigit(gradeTxtField.getText()) && (Integer.parseInt(gradeTxtField.getText()) > 0 && Integer.parseInt(gradeTxtField.getText()) <= 100))
                 {
@@ -193,7 +207,7 @@ public class EditGrades extends JPanel {
 
                     DB.editStudentGrade(courseId,studentId,gradeTxtField.getText());
 
-                    msgLabel.setText("Edit successfully");
+                    msgLabel.setText("Grade edited successfully");
                     msgLabel.setForeground(Color.green);
                 }
                 else

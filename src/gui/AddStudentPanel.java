@@ -26,7 +26,7 @@ public class AddStudentPanel extends JPanel implements ActionListener {
 
     public AddStudentPanel() {
         DB = new DataController();
-        subjectList = DB.listOfCourse();
+        subjectList = DB.listOfPastCourse();
         setLayout(new GridBagLayout());
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         screenWidth = screenSize.width;
@@ -76,12 +76,20 @@ public class AddStudentPanel extends JPanel implements ActionListener {
 
         subjecttListDropdown = new JList<>();
         DefaultListModel<String> listModel = new DefaultListModel<>();
-        for (String s : subjectList) {
-            listModel.addElement(s);
+        subjectList.add(0,"None");
+
+        for (String subject : subjectList) {
+            String[] subjectStringArr = subject.split(":");
+            if(subjectStringArr[0].equals("None")){
+                listModel.addElement(subjectStringArr[0]);
+            }else{
+                listModel.addElement(subjectStringArr[1]);
+            }
         }
         subjecttListDropdown.setModel(listModel);
         subjecttListDropdown.setPreferredSize(subjecttListDropdown.getPreferredSize());
         subjecttListDropdown.setFixedCellHeight(15);
+        subjecttListDropdown.setFixedCellWidth(100);
         subjecttListDropdown.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         subjecttListDropdown.setVisibleRowCount(4);
         add(new JScrollPane(subjecttListDropdown), constraints);
@@ -127,7 +135,7 @@ public class AddStudentPanel extends JPanel implements ActionListener {
      *  After That we generate unique id for student using {@link UtilityClass#generateUniqueId()} <br>
      *  and check if it is already created with same id if so we give error message. <br>
      *  We find uniqueness using  {@link DataController#checkStudentExist(String)} <br>
-     *  Once all the conditions are satisfied we add record to file using {@link DataController#addStudent(String, String, StringBuilder)} <br>
+     *  Once all the conditions are satisfied we add record to file using {@link DataController#addStudent(String, String, String)} <br>
      *  Record Format for teacher: Student@studentID:FullName:CourseName1;CourseName2;attandence:90%;grade:90......}
      */
     private void addStudentSubmit() {
@@ -142,7 +150,7 @@ public class AddStudentPanel extends JPanel implements ActionListener {
                     ListofCourse = subjecttListDropdown.getSelectedValuesList();
                     if(ListofCourse.size() == 0){
                         courseString.append("None");
-                    }else {
+                    }else{
                         for (int i = 0; i < ListofCourse.size(); i++) {
                             if (ListofCourse.size() == i + 1) {
                                 courseString.append(ListofCourse.get(i));
@@ -152,7 +160,7 @@ public class AddStudentPanel extends JPanel implements ActionListener {
                         }
                     }
 
-                    DB.addStudent(generateUniqueId(), studentFullName, courseString);
+                    DB.addStudent(generateUniqueId(), studentFullName, courseString.toString());
                     msgLable.setText("Student Added Successfully.");
                     msgLable.setForeground(Color.green);
                     addStudent_sName.setText("");

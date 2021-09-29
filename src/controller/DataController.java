@@ -3,7 +3,6 @@ package controller;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import static util.UtilityClass.*;
 
@@ -241,12 +240,11 @@ public class DataController {
     /**
      * This is used to add the new student record at the end of the file <br>
      * Record add to file will be in this format: Student@studentID:FullName:CourseName1;CourseName2;attandence:90%;grade:90 <br>
-     *
-     * @param studentID       Randomly generated id at the time of calling the method
+     *  @param studentID       Randomly generated id at the time of calling the method
      * @param studentFullName Student full name which is inserted in text field
      * @param listOfCourse    Selected previous courses
      */
-    public void addStudent(String studentID, String studentFullName, StringBuilder listOfCourse) {
+    public void addStudent(String studentID, String studentFullName, String listOfCourse) {
         try {
             FileWriter writer = new FileWriter(file, true);
             BufferedWriter bufferedWriter = new BufferedWriter(writer);
@@ -1376,6 +1374,37 @@ public class DataController {
         }
     }
 
+    public List<String> listOfPastCourse() {
+        List<String> list = new ArrayList<>();
+        try {
+
+            FileReader reader = new FileReader(file);
+            BufferedReader bufferedReader = new BufferedReader(reader);
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] course = line.split("@");
+                if (course[0].equals("Course")) {
+                    String[] courseStringArr = course[1].split(":");
+                    if (isPastCourse(course[1])) {
+                        list.add(courseStringArr[0] + ":" + courseStringArr[1]);
+                    }
+                }
+            }
+            try {
+                reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (Exception ex) {
+            try {
+                reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            printConsole(ex.getMessage());
+        }
+        return list;
+    }
     /**
      * It is used to print the  message to console
      *
